@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>View Timetable - Smart Timetable Scheduler</title>
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;500;600;700;800&family=Sora:wght@600;700;800&display=swap" rel="stylesheet">
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            primary: { DEFAULT: '#1B2A4A', 50: '#EEF1F6', 100: '#D7DEEA', 600: '#1B2A4A', 700: '#152038', 900: '#0D1526' },
+            accent: { DEFAULT: '#0F6D66', 50: '#E7F4F2', 600: '#0F6D66', 700: '#0B5652' },
+            canvas: '#F6F6F4'
+          },
+          fontFamily: {
+            display: ['Sora', 'sans-serif'],
+            sans: ['"Public Sans"', 'sans-serif']
+          }
+        }
+      }
+    }
+  </script>
+  <link rel="stylesheet" href="../css/theme.css">
+
+
+  <style>
+    @media print {
+      .no-print { display: none !important; }
+      body { background: white; }
+    }
+  </style>
+</head>
+
+<body class="bg-canvas text-slate-800">
+
+<div class="app-shell">
+
+  <!-- Sidebar -->
+  <aside class="sidebar no-print">
+    <div class="sidebar-brand">
+      <div class="sidebar-brand-mark">Smart Timetable</div>
+      <div class="sidebar-brand-sub">Admin Console</div>
+    </div>
+
+    <nav class="sidebar-nav">
+      <a href="dashboard.html" class="sidebar-link"><span class="icon">🏠</span> Dashboard</a>
+      <a href="teachers.html" class="sidebar-link"><span class="icon">👨‍🏫</span> Teachers</a>
+      <a href="subjects.html" class="sidebar-link"><span class="icon">📚</span> Subjects</a>
+      <a href="batches.html" class="sidebar-link"><span class="icon">👥</span> Batches</a>
+      <a href="rooms.html" class="sidebar-link"><span class="icon">🏫</span> Rooms</a>
+      <a href="generate-timetable.html" class="sidebar-link"><span class="icon">⚙️</span> Generate Timetable</a>
+      <a href="timetable.html" class="sidebar-link active"><span class="icon">📅</span> View Timetable</a>
+      <a href="users.html" class="sidebar-link"><span class="icon">🧑‍💼</span> Manage Users</a>
+    </nav>
+
+    <div class="sidebar-footer">
+      <a href="../login.html" class="sidebar-link"><span class="icon">&#8630;</span> Logout</a>
+    </div>
+  </aside>
+
+  <!-- Main -->
+  <div class="app-main">
+    <div class="topbar no-print">
+      <div class="font-display font-semibold text-slate-800">View Timetable</div>
+      <div class="text-sm text-slate-500">Welcome, Admin</div>
+    </div>
+
+    <main class="app-content">
+
+  <!-- Header -->
+  <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-8">
+
+    <div>
+      <h1 class="font-display text-3xl font-bold text-slate-900">View Timetable</h1>
+      <p class="mt-2 text-slate-600">Select a batch to see its weekly timetable.</p>
+    </div>
+
+    <div class="flex gap-3 no-print">
+      <a href="generate-timetable.html"
+         class="border border-slate-300 hover:bg-slate-100 px-5 py-3 rounded-lg font-semibold">
+        Generate New
+      </a>
+
+      <button id="printBtn"
+              type="button"
+              class="bg-slate-800 hover:bg-primary-900 text-white px-5 py-3 rounded-lg font-semibold">
+        Print
+      </button>
+    </div>
+
+  </div>
+
+
+  <!-- Batch selector -->
+  <div class="bg-white border border-slate-200 rounded-xl shadow-sm p-5 mb-6 no-print">
+    <label for="batchSelect" class="block text-sm font-semibold text-slate-700 mb-2">Batch</label>
+    <select id="batchSelect"
+            class="w-full md:w-96 px-4 py-3 border border-slate-300 rounded-lg outline-none focus:ring-2 focus:ring-accent bg-white">
+    </select>
+  </div>
+
+
+  <!-- Message -->
+  <p id="pageMsg" class="hidden mb-6 text-sm font-semibold"></p>
+
+
+  <!-- Timetable -->
+  <div class="bg-white border border-slate-200 rounded-xl shadow-sm overflow-hidden">
+
+    <div class="px-6 py-5 border-b border-slate-200">
+      <h2 id="timetableTitle" class="text-xl font-bold">Weekly Timetable</h2>
+    </div>
+
+    <div id="gridBox" class="overflow-x-auto p-4">
+      <p class="px-2 py-8 text-center text-slate-500">Loading...</p>
+    </div>
+
+  </div>
+
+</main>
+  </div>
+</div>
+
+<script src="../js/api.js"></script>
+<script>
+  requireLogin("ADMIN");
+
+  const DAYS = [
+    ["MON", "Monday"], ["TUE", "Tuesday"], ["WED", "Wednesday"],
+    ["THU", "Thursday"], ["FRI", "Friday"], ["SAT", "Saturday"]
+  ];
+
+  const COLORS = [
+    "bg-blue-50 border-blue-200",
+    "bg-green-50 border-green-200",
+    "bg-purple-50 border-purple-200",
+    "bg-orange-50 border-orange-200",
+    "bg-pink-50 border-pink-200",
+    "bg-yellow-50 border-yellow-200",
+    "bg-teal-50 border-teal-200",
+    "bg-indigo-50 border-indigo-200"
+  ];
+
+  const batchSelect = document.getElementById("batchSelect");
+  const gridBox = document.getElementById("gridBox");
+  const pageMsg = document.getElementById("pageMsg");
+  const title = document.getElementById("timetableTitle");
+
+  function showPageMsg(text) {
+    pageMsg.textContent = text;
+    pageMsg.className = "mb-6 text-sm font-semibold text-red-600";
+  }
+
+  function colorFor(name) {
+    let hash = 0;
+    for (let i = 0; i < name.length; i++) {
+      hash = (hash * 31 + name.charCodeAt(i)) % 1000;
+    }
+    return COLORS[hash % COLORS.length];
+  }
+
+  function showEmpty(text, withLink) {
+    gridBox.innerHTML = "";
+    const p = document.createElement("p");
+    p.className = "px-2 py-10 text-center text-slate-500";
+    p.textContent = text;
+    if (withLink) {
+      p.appendChild(document.createElement("br"));
+      const a = document.createElement("a");
+      a.href = "generate-timetable.html";
+      a.className = "text-accent-600 font-semibold hover:underline";
+      a.textContent = "Go to Generate Timetable";
+      p.appendChild(a);
+    }
+    gridBox.appendChild(p);
+  }
+
+  function renderGrid(entries) {
+    if (entries.length === 0) {
+      showEmpty("No timetable has been generated for this batch yet.", true);
+      return;
+    }
+
+    const byKey = {};
+    let maxPeriod = 6;
+    entries.forEach(function (e) {
+      byKey[e.day + "_" + e.periodNumber] = e;
+      if (e.periodNumber > maxPeriod) maxPeriod = e.periodNumber;
+    });
+
+    const table = document.createElement("table");
+    table.className = "w-full min-w-[800px] text-sm border-collapse";
+
+    // header row
+    const thead = document.createElement("thead");
+    const headRow = document.createElement("tr");
+    const corner = document.createElement("th");
+    corner.className = "border border-slate-200 bg-slate-100 px-3 py-3 text-left w-24";
+    corner.textContent = "Period";
+    headRow.appendChild(corner);
+    DAYS.forEach(function (d) {
+      const th = document.createElement("th");
+      th.className = "border border-slate-200 bg-slate-100 px-3 py-3 text-left";
+      th.textContent = d[1];
+      headRow.appendChild(th);
+    });
+    thead.appendChild(headRow);
+    table.appendChild(thead);
+
+    // body rows
+    const tbody = document.createElement("tbody");
+    for (let p = 1; p <= maxPeriod; p++) {
+      const tr = document.createElement("tr");
+
+      const label = document.createElement("td");
+      label.className = "border border-slate-200 bg-canvas px-3 py-3 font-semibold";
+      label.textContent = "Period " + p;
+      tr.appendChild(label);
+
+      DAYS.forEach(function (d) {
+        const td = document.createElement("td");
+        td.className = "border border-slate-200 p-2 align-top";
+        const entry = byKey[d[0] + "_" + p];
+
+        if (entry) {
+          const card = document.createElement("div");
+          card.className = "rounded-lg border px-3 py-2 " + colorFor(entry.subjectName);
+
+          const subject = document.createElement("p");
+          subject.className = "font-semibold";
+          subject.textContent = entry.subjectName;
+          card.appendChild(subject);
+
+          const teacher = document.createElement("p");
+          teacher.className = "text-xs text-slate-600 mt-0.5";
+          teacher.textContent = entry.teacherName;
+          card.appendChild(teacher);
+
+          if (entry.roomName) {
+            const room = document.createElement("p");
+            room.className = "text-xs text-slate-500";
+            room.textContent = entry.roomName;
+            card.appendChild(room);
+          }
+
+          td.appendChild(card);
+        } else {
+          const free = document.createElement("p");
+          free.className = "text-center text-slate-300";
+          free.textContent = "-";
+          td.appendChild(free);
+        }
+
+        tr.appendChild(td);
+      });
+
+      tbody.appendChild(tr);
+    }
+    table.appendChild(tbody);
+
+    gridBox.innerHTML = "";
+    gridBox.appendChild(table);
+  }
+
+  async function loadTimetable() {
+    pageMsg.className = "hidden mb-6 text-sm font-semibold";
+    const batchId = batchSelect.value;
+    const batchName = batchSelect.options[batchSelect.selectedIndex].textContent;
+    title.textContent = "Weekly Timetable - " + batchName;
+
+    gridBox.innerHTML = "";
+    showEmpty("Loading...", false);
+
+    try {
+      const entries = await apiRequest("/timetable/" + batchId);
+      renderGrid(entries);
+    } catch (err) {
+      gridBox.innerHTML = "";
+      showPageMsg(err.message);
+    }
+  }
+
+  async function init() {
+    try {
+      const batches = await apiRequest("/batches");
+
+      if (batches.length === 0) {
+        batchSelect.disabled = true;
+        showEmpty("No batches found. Add batches, subjects and generate a timetable first.", false);
+        return;
+      }
+
+      batches.forEach(function (b) {
+        const option = document.createElement("option");
+        option.value = b.id;
+        option.textContent = b.name;
+        batchSelect.appendChild(option);
+      });
+
+      batchSelect.addEventListener("change", loadTimetable);
+      loadTimetable();
+    } catch (err) {
+      gridBox.innerHTML = "";
+      showPageMsg(err.message);
+    }
+  }
+
+  document.getElementById("printBtn").addEventListener("click", function () {
+    window.print();
+  });
+
+  init();
+</script>
+
+</body>
+</html>

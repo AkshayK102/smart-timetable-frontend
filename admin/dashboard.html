@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Admin Dashboard - Smart Timetable Scheduler</title>
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;500;600;700;800&family=Sora:wght@600;700;800&display=swap" rel="stylesheet">
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            primary: { DEFAULT: '#1B2A4A', 50: '#EEF1F6', 100: '#D7DEEA', 600: '#1B2A4A', 700: '#152038', 900: '#0D1526' },
+            accent: { DEFAULT: '#0F6D66', 50: '#E7F4F2', 600: '#0F6D66', 700: '#0B5652' },
+            canvas: '#F6F6F4'
+          },
+          fontFamily: {
+            display: ['Sora', 'sans-serif'],
+            sans: ['"Public Sans"', 'sans-serif']
+          }
+        }
+      }
+    }
+  </script>
+  <link rel="stylesheet" href="../css/theme.css">
+
+</head>
+
+<body class="bg-canvas text-slate-800">
+
+<div class="app-shell">
+
+  <!-- Sidebar -->
+  <aside class="sidebar no-print">
+    <div class="sidebar-brand">
+      <div class="sidebar-brand-mark">Smart Timetable</div>
+      <div class="sidebar-brand-sub">Admin Console</div>
+    </div>
+
+    <nav class="sidebar-nav">
+      <a href="dashboard.html" class="sidebar-link active"><span class="icon">🏠</span> Dashboard</a>
+      <a href="teachers.html" class="sidebar-link"><span class="icon">👨‍🏫</span> Teachers</a>
+      <a href="subjects.html" class="sidebar-link"><span class="icon">📚</span> Subjects</a>
+      <a href="batches.html" class="sidebar-link"><span class="icon">👥</span> Batches</a>
+      <a href="rooms.html" class="sidebar-link"><span class="icon">🏫</span> Rooms</a>
+      <a href="generate-timetable.html" class="sidebar-link"><span class="icon">⚙️</span> Generate Timetable</a>
+      <a href="timetable.html" class="sidebar-link"><span class="icon">📅</span> View Timetable</a>
+      <a href="users.html" class="sidebar-link"><span class="icon">🧑‍💼</span> Manage Users</a>
+    </nav>
+
+    <div class="sidebar-footer">
+      <a href="../login.html" class="sidebar-link"><span class="icon">&#8630;</span> Logout</a>
+    </div>
+  </aside>
+
+  <!-- Main -->
+  <div class="app-main">
+    <div class="topbar no-print">
+      <div class="font-display font-semibold text-slate-800">Dashboard</div>
+      <div class="text-sm text-slate-500">Welcome, Admin</div>
+    </div>
+
+    <main class="app-content">
+
+  <!-- Heading -->
+  <div class="mb-8">
+    <h1 class="font-display text-3xl font-bold text-slate-900">Admin Dashboard</h1>
+    <p class="mt-2 text-slate-600">Manage timetable resources and generate schedules.</p>
+  </div>
+
+
+  <!-- Statistics -->
+  <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-10">
+
+    <!-- Teachers -->
+    <div class="bg-white border border-slate-200 rounded-xl shadow-sm p-6">
+      <div class="flex items-center justify-between">
+        <div>
+          <p class="text-sm text-slate-500">Teachers</p>
+          <p id="countTeachers" class="text-3xl font-bold mt-2">-</p>
+        </div>
+        <div class="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center text-2xl">👨‍🏫</div>
+      </div>
+    </div>
+
+    <!-- Subjects -->
+    <div class="bg-white border border-slate-200 rounded-xl shadow-sm p-6">
+      <div class="flex items-center justify-between">
+        <div>
+          <p class="text-sm text-slate-500">Subjects</p>
+          <p id="countSubjects" class="text-3xl font-bold mt-2">-</p>
+        </div>
+        <div class="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center text-2xl">📚</div>
+      </div>
+    </div>
+
+    <!-- Batches -->
+    <div class="bg-white border border-slate-200 rounded-xl shadow-sm p-6">
+      <div class="flex items-center justify-between">
+        <div>
+          <p class="text-sm text-slate-500">Batches</p>
+          <p id="countBatches" class="text-3xl font-bold mt-2">-</p>
+        </div>
+        <div class="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center text-2xl">👥</div>
+      </div>
+    </div>
+
+    <!-- Rooms -->
+    <div class="bg-white border border-slate-200 rounded-xl shadow-sm p-6">
+      <div class="flex items-center justify-between">
+        <div>
+          <p class="text-sm text-slate-500">Rooms</p>
+          <p id="countRooms" class="text-3xl font-bold mt-2">-</p>
+        </div>
+        <div class="w-12 h-12 bg-orange-100 rounded-lg flex items-center justify-center text-2xl">🏫</div>
+      </div>
+    </div>
+
+  </div>
+
+
+  <!-- Management -->
+  <section>
+
+    <h2 class="font-display text-2xl font-bold text-slate-900 mb-6">Management</h2>
+
+    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+
+      <!-- Teachers -->
+      <a href="teachers.html"
+         class="bg-white border border-slate-200 rounded-xl shadow-sm p-6 hover:shadow-md transition">
+        <div class="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center text-2xl mb-5">👨‍🏫</div>
+        <h3 class="font-display text-xl font-bold">Manage Teachers</h3>
+        <p class="text-slate-600 mt-2">Add, update, view and manage teachers.</p>
+      </a>
+
+      <!-- Subjects -->
+      <a href="subjects.html"
+         class="bg-white border border-slate-200 rounded-xl shadow-sm p-6 hover:shadow-md transition">
+        <div class="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center text-2xl mb-5">📚</div>
+        <h3 class="font-display text-xl font-bold">Manage Subjects</h3>
+        <p class="text-slate-600 mt-2">Manage subjects and weekly requirements.</p>
+      </a>
+
+      <!-- Batches -->
+      <a href="batches.html"
+         class="bg-white border border-slate-200 rounded-xl shadow-sm p-6 hover:shadow-md transition">
+        <div class="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center text-2xl mb-5">👥</div>
+        <h3 class="font-display text-xl font-bold">Manage Batches</h3>
+        <p class="text-slate-600 mt-2">Manage student batches and divisions.</p>
+      </a>
+
+      <!-- Rooms -->
+      <a href="rooms.html"
+         class="bg-white border border-slate-200 rounded-xl shadow-sm p-6 hover:shadow-md transition">
+        <div class="w-12 h-12 bg-orange-100 rounded-lg flex items-center justify-center text-2xl mb-5">🏫</div>
+        <h3 class="font-display text-xl font-bold">Manage Rooms</h3>
+        <p class="text-slate-600 mt-2">Manage classrooms, labs and capacities.</p>
+      </a>
+
+      <!-- Generate Timetable -->
+      <a href="generate-timetable.html"
+         class="bg-white border border-slate-200 rounded-xl shadow-sm p-6 hover:shadow-md transition">
+        <div class="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center text-2xl mb-5">⚙️</div>
+        <h3 class="font-display text-xl font-bold">Generate Timetable</h3>
+        <p class="text-slate-600 mt-2">Generate a clash-free timetable automatically.</p>
+      </a>
+
+      <!-- View Timetable -->
+      <a href="timetable.html"
+         class="bg-white border border-slate-200 rounded-xl shadow-sm p-6 hover:shadow-md transition">
+        <div class="w-12 h-12 bg-indigo-100 rounded-lg flex items-center justify-center text-2xl mb-5">📅</div>
+        <h3 class="font-display text-xl font-bold">View Timetable</h3>
+        <p class="text-slate-600 mt-2">View the generated timetable of any batch.</p>
+      </a>
+
+      <!-- Manage Users -->
+      <a href="users.html"
+         class="bg-white border border-slate-200 rounded-xl shadow-sm p-6 hover:shadow-md transition">
+        <div class="w-12 h-12 bg-pink-100 rounded-lg flex items-center justify-center text-2xl mb-5">👥</div>
+        <h3 class="font-display text-xl font-bold">Manage Users</h3>
+        <p class="text-slate-600 mt-2">View signed-up users and remove accounts.</p>
+      </a>
+
+    </div>
+
+  </section>
+
+</main>
+  </div>
+</div>
+
+<script src="../js/api.js"></script>
+<script>
+  requireLogin("ADMIN");
+
+  async function loadCount(path, elementId) {
+    const el = document.getElementById(elementId);
+    try {
+      const list = await apiRequest(path);
+      el.textContent = list.length;
+    } catch (err) {
+      el.textContent = "-";
+    }
+  }
+
+  loadCount("/teachers", "countTeachers");
+  loadCount("/subjects", "countSubjects");
+  loadCount("/batches", "countBatches");
+  loadCount("/rooms", "countRooms");
+</script>
+
+</body>
+</html>

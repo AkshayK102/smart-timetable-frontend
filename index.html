@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Smart Timetable Scheduler</title>
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;500;600;700;800&family=Sora:wght@600;700;800&display=swap" rel="stylesheet">
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            primary: { DEFAULT: '#1B2A4A', 50: '#EEF1F6', 100: '#D7DEEA', 600: '#1B2A4A', 700: '#152038', 900: '#0D1526' },
+            accent: { DEFAULT: '#0F6D66', 50: '#E7F4F2', 600: '#0F6D66', 700: '#0B5652' },
+            canvas: '#F6F6F4'
+          },
+          fontFamily: {
+            display: ['Sora', 'sans-serif'],
+            sans: ['"Public Sans"', 'sans-serif']
+          }
+        }
+      }
+    }
+  </script>
+  <link rel="stylesheet" href="css/theme.css">
+
+</head>
+
+<body class="bg-canvas text-slate-800">
+
+<!-- Navbar -->
+<nav class="bg-primary-900 text-white">
+  <div class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
+
+    <div class="text-xl font-display font-bold">
+      Smart Timetable Scheduler
+    </div>
+
+    <div class="flex items-center gap-7 text-sm">
+      <a href="index.html" class="hover:text-accent">Home</a>
+      <a href="about.html" class="hover:text-accent">About</a>
+      <a href="login.html" class="hover:text-accent">Login</a>
+      <a href="signup.html" class="hover:text-accent">Sign Up</a>
+    </div>
+
+  </div>
+</nav>
+
+
+<!-- Hero Section -->
+<section class="min-h-[calc(100vh-140px)] flex items-center">
+
+  <div class="max-w-7xl mx-auto px-6 w-full">
+
+    <div class="grid md:grid-cols-2 gap-12 items-center">
+
+      <!-- Left Content -->
+      <div>
+
+        <h1 class="font-display text-5xl md:text-6xl font-bold leading-tight text-slate-900">
+          Smart
+          <br>
+          Timetable
+          <br>
+          Scheduler
+        </h1>
+
+        <p class="mt-6 text-lg text-slate-600 max-w-lg">
+          Generate clash-free timetables automatically
+          and save time.
+        </p>
+
+        <div class="mt-8 flex gap-4">
+
+          <a href="login.html"
+             class="bg-primary hover:bg-primary-700 text-white px-8 py-3 rounded-lg font-semibold">
+            Login
+          </a>
+
+          <a href="signup.html"
+             class="border border-blue-600 text-accent-600 hover:bg-blue-50 px-8 py-3 rounded-lg font-semibold">
+            Sign Up
+          </a>
+
+        </div>
+
+      </div>
+
+
+      <!-- Right Illustration -->
+      <div class="flex justify-center">
+
+        <div class="relative w-80 h-64">
+
+          <!-- Clock -->
+          <div class="absolute right-4 top-0 w-24 h-24 rounded-full
+                                border-8 border-blue-600 bg-white
+                                flex items-center justify-center shadow-lg">
+
+            <div class="text-2xl font-bold text-slate-700">
+              12
+            </div>
+
+          </div>
+
+          <!-- Timetable -->
+          <div class="absolute left-10 top-14 w-64 h-40
+                                bg-white rounded-xl shadow-xl
+                                border border-slate-200 p-5
+                                transform -rotate-3">
+
+            <div class="text-accent-700 font-bold mb-3">
+              Timetable
+            </div>
+
+            <div class="grid grid-cols-5 gap-2">
+
+              <div class="h-6 bg-blue-100 rounded"></div>
+              <div class="h-6 bg-blue-200 rounded"></div>
+              <div class="h-6 bg-blue-100 rounded"></div>
+              <div class="h-6 bg-blue-300 rounded"></div>
+              <div class="h-6 bg-blue-100 rounded"></div>
+
+              <div class="h-6 bg-blue-200 rounded"></div>
+              <div class="h-6 bg-blue-100 rounded"></div>
+              <div class="h-6 bg-blue-300 rounded"></div>
+              <div class="h-6 bg-blue-100 rounded"></div>
+              <div class="h-6 bg-blue-200 rounded"></div>
+
+              <div class="h-6 bg-blue-100 rounded"></div>
+              <div class="h-6 bg-blue-300 rounded"></div>
+              <div class="h-6 bg-blue-100 rounded"></div>
+              <div class="h-6 bg-blue-200 rounded"></div>
+              <div class="h-6 bg-blue-100 rounded"></div>
+
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- Features -->
+<section class="bg-white border-t">
+
+  <div class="max-w-7xl mx-auto px-6 py-6">
+
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
+
+      <div>
+        <div class="font-semibold text-slate-800">
+          Easy to Use
+        </div>
+      </div>
+
+      <div>
+        <div class="font-semibold text-slate-800">
+          Clash-Free
+        </div>
+      </div>
+
+      <div>
+        <div class="font-semibold text-slate-800">
+          Time Saving
+        </div>
+      </div>
+
+      <div>
+        <div class="font-semibold text-slate-800">
+          Better Management
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
+
+<script src="js/main.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>User Dashboard - Smart Timetable Scheduler</title>
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;500;600;700;800&family=Sora:wght@600;700;800&display=swap" rel="stylesheet">
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            primary: { DEFAULT: '#1B2A4A', 50: '#EEF1F6', 100: '#D7DEEA', 600: '#1B2A4A', 700: '#152038', 900: '#0D1526' },
+            accent: { DEFAULT: '#0F6D66', 50: '#E7F4F2', 600: '#0F6D66', 700: '#0B5652' },
+            canvas: '#F6F6F4'
+          },
+          fontFamily: {
+            display: ['Sora', 'sans-serif'],
+            sans: ['"Public Sans"', 'sans-serif']
+          }
+        }
+      }
+    }
+  </script>
+  <link rel="stylesheet" href="../css/theme.css">
+
+</head>
+
+<body class="bg-canvas text-slate-800">
+
+<!-- Navbar -->
+<nav class="bg-primary-900 text-white">
+  <div class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
+
+    <div class="text-xl font-bold">
+      Smart Timetable Scheduler
+    </div>
+
+    <div class="flex items-center gap-6">
+
+      <span class="text-sm text-slate-300">
+        Welcome, User
+      </span>
+
+      <a href="../login.html"
+         class="bg-red-500 hover:bg-red-600 px-4 py-2 rounded-lg text-sm font-semibold">
+        Logout
+      </a>
+
+    </div>
+  </div>
+</nav>
+
+
+<!-- Main -->
+<main class="max-w-7xl mx-auto px-6 py-10">
+
+  <!-- Heading -->
+  <div class="mb-8">
+    <h1 class="font-display text-3xl font-bold text-slate-900">User Dashboard</h1>
+    <p class="mt-2 text-slate-600">View your timetable and manage your account.</p>
+  </div>
+
+
+  <!-- Cards -->
+  <div class="grid md:grid-cols-3 gap-6 mb-10">
+
+    <!-- My Timetable -->
+    <div class="bg-white border border-slate-200 rounded-xl shadow-sm p-6">
+      <div class="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center text-2xl mb-5">📅</div>
+      <h2 class="font-display text-xl font-bold">My Timetable</h2>
+      <p class="text-slate-600 mt-2 mb-5">View your current weekly timetable.</p>
+      <a href="timetable.html"
+         class="inline-block bg-primary hover:bg-primary-700 text-white px-5 py-2.5 rounded-lg font-semibold">
+        View Timetable
+      </a>
+    </div>
+
+    <!-- My Profile -->
+    <div class="bg-white border border-slate-200 rounded-xl shadow-sm p-6">
+      <div class="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center text-2xl mb-5">👤</div>
+      <h2 class="font-display text-xl font-bold">My Profile</h2>
+      <p class="text-slate-600 mt-2 mb-5">View and manage your account information.</p>
+      <a href="profile.html"
+         class="inline-block bg-green-600 hover:bg-green-700 text-white px-5 py-2.5 rounded-lg font-semibold">
+        View Profile
+      </a>
+    </div>
+
+    <!-- Today's Schedule -->
+    <div class="bg-white border border-slate-200 rounded-xl shadow-sm p-6">
+      <div class="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center text-2xl mb-5">🕐</div>
+      <h2 class="font-display text-xl font-bold">Today's Schedule</h2>
+      <p class="text-slate-600 mt-2 mb-5">Quickly check your classes for today.</p>
+      <a href="#todaySchedule"
+         class="inline-block bg-purple-600 hover:bg-purple-700 text-white px-5 py-2.5 rounded-lg font-semibold">
+        Check Schedule
+      </a>
+    </div>
+
+  </div>
+
+
+  <!-- Today's classes -->
+  <section id="todaySchedule">
+    <div class="bg-white border border-slate-200 rounded-xl shadow-sm overflow-hidden">
+
+      <div class="px-6 py-5 border-b border-slate-200">
+        <h2 class="font-display text-xl font-bold">Today's Classes</h2>
+        <p id="todayLabel" class="text-slate-500 mt-1"></p>
+      </div>
+
+      <div id="todayBox" class="p-6">
+        <p class="text-slate-500">Loading...</p>
+      </div>
+
+    </div>
+  </section>
+
+</main>
+
+<script src="../js/api.js"></script>
+<script>
+  requireLogin();
+
+  const DAY_CODES = ["SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT"];
+  const DAY_NAMES = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+
+  const todayBox = document.getElementById("todayBox");
+
+  function showText(text, linkText, linkHref) {
+    todayBox.innerHTML = "";
+    const p = document.createElement("p");
+    p.className = "text-slate-500";
+    p.textContent = text;
+    if (linkText) {
+      p.appendChild(document.createTextNode(" "));
+      const a = document.createElement("a");
+      a.href = linkHref;
+      a.className = "text-accent-600 font-semibold hover:underline";
+      a.textContent = linkText;
+      p.appendChild(a);
+    }
+    todayBox.appendChild(p);
+  }
+
+  async function loadToday() {
+    const now = new Date();
+    const todayCode = DAY_CODES[now.getDay()];
+    document.getElementById("todayLabel").textContent =
+      DAY_NAMES[now.getDay()] + ", " +
+      now.toLocaleDateString("en-GB", { day: "2-digit", month: "short", year: "numeric" });
+
+    if (todayCode === "SUN") {
+      showText("No classes today. Enjoy your Sunday!");
+      return;
+    }
+
+    const user = getUser();
+    const batchId = localStorage.getItem("myBatchId_" + (user ? user.id : ""));
+    if (!batchId) {
+      showText("You have not selected your batch yet.", "Select your batch", "timetable.html");
+      return;
+    }
+
+    try {
+      const entries = await apiRequest("/timetable/" + batchId);
+
+      if (entries.length === 0) {
+        showText("No timetable has been published for your batch yet. Please check again later.");
+        return;
+      }
+
+      const todays = entries.filter(function (e) { return e.day === todayCode; });
+      if (todays.length === 0) {
+        showText("You have no classes today.");
+        return;
+      }
+
+      todayBox.innerHTML = "";
+      const list = document.createElement("div");
+      list.className = "space-y-3";
+
+      todays.forEach(function (e) {
+        const row = document.createElement("div");
+        row.className = "flex items-center gap-4 border border-slate-200 rounded-lg px-4 py-3";
+
+        const period = document.createElement("div");
+        period.className = "w-24 shrink-0 text-sm font-semibold text-accent-700";
+        period.textContent = "Period " + e.periodNumber;
+        row.appendChild(period);
+
+        const info = document.createElement("div");
+        const subject = document.createElement("p");
+        subject.className = "font-semibold";
+        subject.textContent = e.subjectName;
+        const teacher = document.createElement("p");
+        teacher.className = "text-sm text-slate-500";
+        teacher.textContent = e.teacherName;
+        info.appendChild(subject);
+        info.appendChild(teacher);
+        row.appendChild(info);
+
+        list.appendChild(row);
+      });
+
+      todayBox.appendChild(list);
+    } catch (err) {
+      showText(err.message);
+    }
+  }
+
+  loadToday();
+</script>
+
+</body>
+</html>

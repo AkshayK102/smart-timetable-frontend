@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Manage Batches - Smart Timetable Scheduler</title>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;500;600;700;800&family=Sora:wght@600;700;800&display=swap" rel="stylesheet">
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            primary: { DEFAULT: '#1B2A4A', 50: '#EEF1F6', 100: '#D7DEEA', 600: '#1B2A4A', 700: '#152038', 900: '#0D1526' },
+            accent: { DEFAULT: '#0F6D66', 50: '#E7F4F2', 600: '#0F6D66', 700: '#0B5652' },
+            canvas: '#F6F6F4'
+          },
+          fontFamily: {
+            display: ['Sora', 'sans-serif'],
+            sans: ['"Public Sans"', 'sans-serif']
+          }
+        }
+      }
+    }
+  </script>
+  <link rel="stylesheet" href="../css/theme.css">
+
+</head>
+
+<body class="bg-canvas text-slate-800">
+
+<div class="app-shell">
+
+  <!-- Sidebar -->
+  <aside class="sidebar no-print">
+    <div class="sidebar-brand">
+      <div class="sidebar-brand-mark">Smart Timetable</div>
+      <div class="sidebar-brand-sub">Admin Console</div>
+    </div>
+
+    <nav class="sidebar-nav">
+      <a href="dashboard.html" class="sidebar-link"><span class="icon">🏠</span> Dashboard</a>
+      <a href="teachers.html" class="sidebar-link"><span class="icon">👨‍🏫</span> Teachers</a>
+      <a href="subjects.html" class="sidebar-link"><span class="icon">📚</span> Subjects</a>
+      <a href="batches.html" class="sidebar-link active"><span class="icon">👥</span> Batches</a>
+      <a href="rooms.html" class="sidebar-link"><span class="icon">🏫</span> Rooms</a>
+      <a href="generate-timetable.html" class="sidebar-link"><span class="icon">⚙️</span> Generate Timetable</a>
+      <a href="timetable.html" class="sidebar-link"><span class="icon">📅</span> View Timetable</a>
+      <a href="users.html" class="sidebar-link"><span class="icon">🧑‍💼</span> Manage Users</a>
+    </nav>
+
+    <div class="sidebar-footer">
+      <a href="../login.html" class="sidebar-link"><span class="icon">&#8630;</span> Logout</a>
+    </div>
+  </aside>
+
+  <!-- Main -->
+  <div class="app-main">
+    <div class="topbar no-print">
+      <div class="font-display font-semibold text-slate-800">Batches</div>
+      <div class="text-sm text-slate-500">Welcome, Admin</div>
+    </div>
+
+    <main class="app-content">
+
+    <!-- Header -->
+    <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-8">
+
+        <div>
+            <h1 class="font-display text-3xl font-bold text-slate-900">Manage Batches</h1>
+            <p class="mt-2 text-slate-600">Add the batches (year, class and division) that timetables are generated for.</p>
+        </div>
+
+        <button onclick="openForm()"
+                class="bg-primary hover:bg-primary-700 text-white px-5 py-3 rounded-lg font-semibold">
+            + Add Batch
+        </button>
+
+    </div>
+
+
+    <!-- Search -->
+    <div class="bg-white border border-slate-200 rounded-xl shadow-sm p-5 mb-6">
+        <div class="flex flex-col md:flex-row gap-4">
+
+            <input type="text"
+                   id="searchInput"
+                   placeholder="Search batch by name..."
+                   class="flex-1 px-4 py-3 border border-slate-300 rounded-lg outline-none focus:ring-2 focus:ring-accent">
+
+            <button id="searchBtn"
+                    class="bg-slate-800 hover:bg-primary-900 text-white px-6 py-3 rounded-lg font-semibold">
+                Search
+            </button>
+
+        </div>
+    </div>
+
+
+    <!-- Page message -->
+    <p id="pageMsg" class="hidden mb-6 text-sm font-semibold"></p>
+
+
+    <!-- Table -->
+    <div class="bg-white border border-slate-200 rounded-xl shadow-sm overflow-hidden">
+
+        <div class="px-6 py-5 border-b border-slate-200">
+            <h2 class="font-display text-xl font-bold">Batch List</h2>
+        </div>
+
+        <div class="overflow-x-auto">
+            <table class="w-full text-sm">
+
+                <thead class="bg-slate-100">
+                <tr>
+                    <th class="px-6 py-4 text-left">ID</th>
+                    <th class="px-6 py-4 text-left">Batch Name</th>
+                    <th class="px-6 py-4 text-left">Year</th>
+                    <th class="px-6 py-4 text-left">Actions</th>
+                </tr>
+                </thead>
+
+                <tbody id="tableBody" class="divide-y divide-slate-200">
+                <tr>
+                    <td colspan="4" class="px-6 py-8 text-center text-slate-500">Loading...</td>
+                </tr>
+                </tbody>
+
+            </table>
+        </div>
+
+    </div>
+
+</main>
+  </div>
+</div>
+
+
+<!-- Add / Edit Modal -->
+<div id="formModal"
+     class="hidden fixed inset-0 bg-black/50 flex items-center justify-center px-6">
+
+    <div class="bg-white rounded-2xl shadow-xl w-full max-w-lg">
+
+        <!-- Modal Header -->
+        <div class="flex items-center justify-between px-6 py-5 border-b">
+            <h2 id="modalTitle" class="text-xl font-bold">Add Batch</h2>
+
+            <button type="button"
+                    onclick="closeForm()"
+                    class="text-slate-500 hover:text-slate-900 text-2xl leading-none">
+                &times;
+            </button>
+        </div>
+
+        <!-- Form -->
+        <form id="itemForm" class="p-6 space-y-5" novalidate>
+
+            <div>
+                <label for="yearSelect" class="block text-sm font-semibold text-slate-700 mb-2">
+                    Year
+                </label>
+                <select id="yearSelect"
+                        class="w-full px-4 py-3 border border-slate-300 rounded-lg outline-none focus:ring-2 focus:ring-accent bg-white">
+                    <option value="FY">FY (First Year)</option>
+                    <option value="SY">SY (Second Year)</option>
+                    <option value="TY">TY (Third Year)</option>
+                </select>
+            </div>
+
+            <div>
+                <label for="nameInput" class="block text-sm font-semibold text-slate-700 mb-2">
+                    Batch Name
+                </label>
+                <input type="text"
+                       id="nameInput"
+                       maxlength="100"
+                       placeholder="Example: BSc Computer Science - Div A"
+                       required
+                       class="w-full px-4 py-3 border border-slate-300 rounded-lg outline-none focus:ring-2 focus:ring-accent">
+            </div>
+
+            <p id="formError" class="hidden text-sm font-semibold text-red-600"></p>
+
+            <div class="flex justify-end gap-3 pt-2">
+                <button type="button"
+                        onclick="closeForm()"
+                        class="px-5 py-3 border border-slate-300 rounded-lg font-semibold hover:bg-slate-100">
+                    Cancel
+                </button>
+
+                <button type="submit"
+                        id="saveBtn"
+                        class="px-5 py-3 bg-primary hover:bg-primary-700 text-white rounded-lg font-semibold">
+                    Save Batch
+                </button>
+            </div>
+
+        </form>
+
+    </div>
+</div>
+
+
+<script src="../js/api.js"></script>
+<script>
+    requireLogin("ADMIN");
+
+    const ENDPOINT = "/batches";
+    const ITEM_NAME = "Batch";
+
+    let items = [];
+    let editingId = null; // null = adding a new item
+
+    const tbody = document.getElementById("tableBody");
+    const searchInput = document.getElementById("searchInput");
+    const pageMsg = document.getElementById("pageMsg");
+    const modal = document.getElementById("formModal");
+    const form = document.getElementById("itemForm");
+    const formError = document.getElementById("formError");
+    const modalTitle = document.getElementById("modalTitle");
+    const saveBtn = document.getElementById("saveBtn");
+    const nameInput = document.getElementById("nameInput");
+    const yearSelect = document.getElementById("yearSelect");
+
+    // ---------- messages ----------
+    function showPageMsg(text, ok) {
+      pageMsg.textContent = text;
+      pageMsg.className = "mb-6 text-sm font-semibold " + (ok ? "text-green-600" : "text-red-600");
+    }
+
+    function hidePageMsg() {
+      pageMsg.className = "hidden mb-6 text-sm font-semibold";
+    }
+
+    function showFormError(text) {
+      formError.textContent = text;
+      formError.classList.remove("hidden");
+    }
+
+    // ---------- table ----------
+    function makeCell(text, extraClass) {
+      const td = document.createElement("td");
+      td.className = "px-6 py-4 " + (extraClass || "");
+      td.textContent = text;
+      return td;
+    }
+
+    function makeButton(label, classes, onClick) {
+      const btn = document.createElement("button");
+      btn.type = "button";
+      btn.textContent = label;
+      btn.className = "px-3 py-2 rounded-lg font-semibold " + classes;
+      btn.addEventListener("click", onClick);
+      return btn;
+    }
+
+    function renderTable() {
+      const query = searchInput.value.trim().toLowerCase();
+      const list = items.filter(function (item) {
+        return item.name.toLowerCase().includes(query);
+      });
+
+      tbody.innerHTML = "";
+
+      if (list.length === 0) {
+        const tr = document.createElement("tr");
+        const td = document.createElement("td");
+        td.colSpan = 4;
+        td.className = "px-6 py-8 text-center text-slate-500";
+        td.textContent = items.length === 0
+          ? 'No batches added yet. Click "+ Add Batch" to add one.'
+          : "No batches match your search.";
+        tr.appendChild(td);
+        tbody.appendChild(tr);
+        return;
+      }
+
+      list.forEach(function (item) {
+        const tr = document.createElement("tr");
+
+        tr.appendChild(makeCell(item.id));
+        tr.appendChild(makeCell(item.name, "font-semibold"));
+        tr.appendChild(makeCell(item.year));
+
+        const actions = document.createElement("td");
+        actions.className = "px-6 py-4";
+        const wrap = document.createElement("div");
+        wrap.className = "flex gap-2";
+        wrap.appendChild(makeButton("Edit", "bg-blue-100 text-accent-700 hover:bg-blue-200", function () {
+          openForm(item);
+        }));
+        wrap.appendChild(makeButton("Delete", "bg-red-100 text-red-700 hover:bg-red-200", function () {
+          deleteItem(item);
+        }));
+        actions.appendChild(wrap);
+        tr.appendChild(actions);
+
+        tbody.appendChild(tr);
+      });
+    }
+
+    async function loadItems() {
+      try {
+        items = await apiRequest(ENDPOINT);
+        renderTable();
+      } catch (err) {
+        tbody.innerHTML = "";
+        showPageMsg(err.message, false);
+      }
+    }
+
+    // ---------- modal ----------
+    function openForm(item) {
+      formError.classList.add("hidden");
+      if (item) {
+        editingId = item.id;
+        modalTitle.textContent = "Edit " + ITEM_NAME;
+        nameInput.value = item.name;
+        yearSelect.value = item.year;
+      } else {
+        editingId = null;
+        modalTitle.textContent = "Add " + ITEM_NAME;
+        nameInput.value = "";
+        yearSelect.value = "FY";
+      }
+      modal.classList.remove("hidden");
+      nameInput.focus();
+    }
+
+    function closeForm() {
+      modal.classList.add("hidden");
+    }
+
+    modal.addEventListener("click", function (e) {
+      if (e.target === modal) closeForm();
+    });
+
+    document.addEventListener("keydown", function (e) {
+      if (e.key === "Escape") closeForm();
+    });
+
+    // ---------- add / edit ----------
+    form.addEventListener("submit", async function (event) {
+      event.preventDefault();
+      formError.classList.add("hidden");
+
+      const name = nameInput.value.trim();
+      if (name === "") {
+        showFormError("Please enter the batch name.");
+        return;
+      }
+      const body = { name: name, year: yearSelect.value };
+
+      saveBtn.disabled = true;
+      try {
+        if (editingId === null) {
+          await apiRequest(ENDPOINT, "POST", body);
+          showPageMsg(ITEM_NAME + " added successfully.", true);
+        } else {
+          await apiRequest(ENDPOINT + "/" + editingId, "PUT", body);
+          showPageMsg(ITEM_NAME + " updated successfully.", true);
+        }
+        closeForm();
+        await loadItems();
+      } catch (err) {
+        showFormError(err.message);
+      } finally {
+        saveBtn.disabled = false;
+      }
+    });
+
+    // ---------- delete ----------
+    async function deleteItem(item) {
+      if (!confirm('Delete ' + ITEM_NAME.toLowerCase() + ' "' + item.name + '"?')) return;
+
+      hidePageMsg();
+      try {
+        await apiRequest(ENDPOINT + "/" + item.id, "DELETE");
+        showPageMsg(ITEM_NAME + " deleted successfully.", true);
+        await loadItems();
+      } catch (err) {
+        showPageMsg(err.message, false);
+      }
+    }
+
+    // ---------- search ----------
+    searchInput.addEventListener("input", renderTable);
+    document.getElementById("searchBtn").addEventListener("click", renderTable);
+
+    // ---------- start ----------
+    loadItems();
+</script>
+
+</body>
+</html>

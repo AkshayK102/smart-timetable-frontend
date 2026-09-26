@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>My Profile - Smart Timetable Scheduler</title>
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;500;600;700;800&family=Sora:wght@600;700;800&display=swap" rel="stylesheet">
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            primary: { DEFAULT: '#1B2A4A', 50: '#EEF1F6', 100: '#D7DEEA', 600: '#1B2A4A', 700: '#152038', 900: '#0D1526' },
+            accent: { DEFAULT: '#0F6D66', 50: '#E7F4F2', 600: '#0F6D66', 700: '#0B5652' },
+            canvas: '#F6F6F4'
+          },
+          fontFamily: {
+            display: ['Sora', 'sans-serif'],
+            sans: ['"Public Sans"', 'sans-serif']
+          }
+        }
+      }
+    }
+  </script>
+  <link rel="stylesheet" href="../css/theme.css">
+
+</head>
+
+<body class="bg-canvas text-slate-800">
+
+<!-- Navbar -->
+<nav class="bg-primary-900 text-white">
+  <div class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
+
+    <a href="../index.html" class="text-xl font-bold">
+      Smart Timetable Scheduler
+    </a>
+
+    <div class="flex items-center gap-6">
+
+      <a href="dashboard.html" class="text-sm hover:text-accent">
+        Dashboard
+      </a>
+
+      <a href="timetable.html" class="text-sm hover:text-accent">
+        Timetable
+      </a>
+
+      <span class="text-sm text-slate-300">
+        Welcome, User
+      </span>
+
+      <a href="../login.html"
+         class="bg-red-500 hover:bg-red-600 px-4 py-2 rounded-lg text-sm font-semibold">
+        Logout
+      </a>
+
+    </div>
+  </div>
+</nav>
+
+
+<!-- Main -->
+<main class="max-w-4xl mx-auto px-6 py-10">
+
+  <!-- Heading -->
+  <div class="mb-8">
+    <h1 class="font-display text-3xl font-bold text-slate-900">My Profile</h1>
+    <p class="mt-2 text-slate-600">View and manage your account information.</p>
+  </div>
+
+
+  <!-- Profile Card -->
+  <div class="bg-white border border-slate-200 rounded-2xl shadow-sm overflow-hidden">
+
+    <!-- Profile Header -->
+    <div class="bg-primary-900 px-8 py-8 text-white">
+      <div class="flex items-center gap-5">
+
+        <div id="avatar"
+             class="w-20 h-20 rounded-full bg-primary flex items-center justify-center text-3xl font-bold">
+          U
+        </div>
+
+        <div>
+          <h2 id="headerName" class="text-2xl font-bold">User Name</h2>
+          <p id="headerRole" class="text-slate-300 mt-1">Student Account</p>
+        </div>
+
+      </div>
+    </div>
+
+
+    <!-- Profile Information -->
+    <div class="p-8">
+
+      <h3 class="font-display text-xl font-bold text-slate-900 mb-6">Personal Information</h3>
+
+      <div class="grid md:grid-cols-2 gap-6">
+
+        <!-- Full Name (editable) -->
+        <div>
+          <label for="fullName" class="block text-sm font-semibold text-slate-600 mb-2">
+            Full Name
+          </label>
+          <input id="fullName"
+                 type="text"
+                 maxlength="100"
+                 value=""
+                 class="w-full px-4 py-3 border border-slate-300 rounded-lg bg-canvas outline-none"
+                 readonly>
+        </div>
+
+        <!-- Email (read only) -->
+        <div>
+          <label for="emailField" class="block text-sm font-semibold text-slate-600 mb-2">
+            Email
+          </label>
+          <input id="emailField"
+                 type="email"
+                 value=""
+                 class="w-full px-4 py-3 border border-slate-300 rounded-lg bg-canvas outline-none"
+                 readonly>
+        </div>
+
+        <!-- Role (read only) -->
+        <div>
+          <label for="roleField" class="block text-sm font-semibold text-slate-600 mb-2">
+            Role
+          </label>
+          <input id="roleField"
+                 type="text"
+                 value=""
+                 class="w-full px-4 py-3 border border-slate-300 rounded-lg bg-canvas outline-none"
+                 readonly>
+        </div>
+
+        <!-- Account Status -->
+        <div>
+          <label class="block text-sm font-semibold text-slate-600 mb-2">
+            Account Status
+          </label>
+          <div class="flex items-center h-[46px]">
+            <span class="px-4 py-2 rounded-full bg-green-100 text-green-700 text-sm font-semibold">
+              Active
+            </span>
+          </div>
+        </div>
+
+      </div>
+
+
+      <!-- Account Information -->
+      <div class="mt-10 pt-8 border-t border-slate-200">
+
+        <h3 class="font-display text-xl font-bold text-slate-900 mb-6">Account Information</h3>
+
+        <div>
+          <p class="text-sm text-slate-500">Account Created</p>
+          <p id="createdAt" class="font-semibold mt-1">--</p>
+        </div>
+
+      </div>
+
+
+      <!-- Message -->
+      <p id="profileMsg" class="hidden mt-6 text-sm font-semibold"></p>
+
+
+      <!-- Buttons -->
+      <div class="mt-8 flex flex-wrap gap-4">
+
+        <button id="editBtn"
+                type="button"
+                class="bg-primary hover:bg-primary-700 text-white px-6 py-3 rounded-lg font-semibold">
+          Edit Profile
+        </button>
+
+        <button id="saveBtn"
+                type="button"
+                class="hidden bg-green-600 hover:bg-green-700 text-white px-6 py-3 rounded-lg font-semibold">
+          Save Changes
+        </button>
+
+        <button id="cancelBtn"
+                type="button"
+                class="hidden border border-slate-300 hover:bg-slate-100 px-6 py-3 rounded-lg font-semibold">
+          Cancel
+        </button>
+
+        <a href="dashboard.html"
+           class="border border-slate-300 hover:bg-slate-100 px-6 py-3 rounded-lg font-semibold">
+          Back to Dashboard
+        </a>
+
+      </div>
+
+    </div>
+  </div>
+
+</main>
+
+<script src="../js/api.js"></script>
+<script>
+  requireLogin();
+
+  const nameInput = document.getElementById("fullName");
+  const editBtn = document.getElementById("editBtn");
+  const saveBtn = document.getElementById("saveBtn");
+  const cancelBtn = document.getElementById("cancelBtn");
+  const msg = document.getElementById("profileMsg");
+
+  let savedName = "";
+
+  function showMsg(text, ok) {
+    msg.textContent = text;
+    msg.className = "mt-6 text-sm font-semibold " + (ok ? "text-green-600" : "text-red-600");
+  }
+
+  function hideMsg() {
+    msg.className = "hidden mt-6 text-sm font-semibold";
+  }
+
+  function formatDate(iso) {
+    if (!iso) return "--";
+    const d = new Date(iso);
+    if (isNaN(d.getTime())) return "--";
+    return d.toLocaleDateString("en-GB", { day: "2-digit", month: "short", year: "numeric" });
+  }
+
+  function fillProfile(p) {
+    savedName = p.name;
+    nameInput.value = p.name;
+    document.getElementById("emailField").value = p.email;
+    document.getElementById("roleField").value = p.role;
+    document.getElementById("headerName").textContent = p.name;
+    document.getElementById("avatar").textContent = p.name.charAt(0).toUpperCase();
+    document.getElementById("headerRole").textContent =
+      p.role === "ADMIN" ? "Administrator Account" : "Student Account";
+    document.getElementById("createdAt").textContent = formatDate(p.createdAt);
+  }
+
+  function setEditing(editing) {
+    nameInput.readOnly = !editing;
+    nameInput.classList.toggle("bg-canvas", !editing);
+    nameInput.classList.toggle("bg-white", editing);
+    nameInput.classList.toggle("ring-2", editing);
+    nameInput.classList.toggle("ring-blue-500", editing);
+    editBtn.classList.toggle("hidden", editing);
+    saveBtn.classList.toggle("hidden", !editing);
+    cancelBtn.classList.toggle("hidden", !editing);
+    if (editing) {
+      nameInput.focus();
+    }
+  }
+
+  editBtn.addEventListener("click", function () {
+    hideMsg();
+    setEditing(true);
+  });
+
+  cancelBtn.addEventListener("click", function () {
+    nameInput.value = savedName;
+    hideMsg();
+    setEditing(false);
+  });
+
+  saveBtn.addEventListener("click", async function () {
+    const newName = nameInput.value.trim();
+
+    if (newName === "") {
+      showMsg("Full name cannot be empty.", false);
+      return;
+    }
+
+    saveBtn.disabled = true;
+    try {
+      const profile = await apiRequest("/users/me", "PUT", { name: newName });
+      fillProfile(profile);
+
+      // keep the name shown in the navbar and in local storage up to date
+      const user = getUser();
+      if (user) {
+        user.name = profile.name;
+        localStorage.setItem("user", JSON.stringify(user));
+      }
+      document.querySelectorAll("span").forEach(function (s) {
+        if (s.textContent.trim().startsWith("Welcome,")) {
+          s.textContent = "Welcome, " + profile.name;
+        }
+      });
+
+      setEditing(false);
+      showMsg("Your profile has been updated successfully.", true);
+    } catch (err) {
+      showMsg(err.message, false);
+    } finally {
+      saveBtn.disabled = false;
+    }
+  });
+
+  document.addEventListener("DOMContentLoaded", async function () {
+    try {
+      const profile = await apiRequest("/users/me");
+      fillProfile(profile);
+    } catch (err) {
+      showMsg(err.message, false);
+    }
+  });
+</script>
+
+</body>
+</html>

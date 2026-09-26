@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>My Timetable - Smart Timetable Scheduler</title>
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;500;600;700;800&family=Sora:wght@600;700;800&display=swap" rel="stylesheet">
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            primary: { DEFAULT: '#1B2A4A', 50: '#EEF1F6', 100: '#D7DEEA', 600: '#1B2A4A', 700: '#152038', 900: '#0D1526' },
+            accent: { DEFAULT: '#0F6D66', 50: '#E7F4F2', 600: '#0F6D66', 700: '#0B5652' },
+            canvas: '#F6F6F4'
+          },
+          fontFamily: {
+            display: ['Sora', 'sans-serif'],
+            sans: ['"Public Sans"', 'sans-serif']
+          }
+        }
+      }
+    }
+  </script>
+  <link rel="stylesheet" href="../css/theme.css">
+
+
+  <style>
+    @media print {
+      .no-print { display: none !important; }
+      body { background: white; }
+    }
+  </style>
+</head>
+
+<body class="bg-canvas text-slate-800">
+
+<!-- Navbar -->
+<nav class="bg-primary-900 text-white no-print">
+  <div class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
+
+    <a href="../index.html" class="text-xl font-bold">
+      Smart Timetable Scheduler
+    </a>
+
+    <div class="flex items-center gap-6">
+
+      <a href="dashboard.html" class="text-sm hover:text-accent">
+        Dashboard
+      </a>
+
+      <span class="text-sm text-slate-300">
+        Welcome, User
+      </span>
+
+      <a href="../login.html"
+         class="bg-red-500 hover:bg-red-600 px-4 py-2 rounded-lg text-sm font-semibold">
+        Logout
+      </a>
+
+    </div>
+  </div>
+</nav>
+
+
+<!-- Main -->
+<main class="max-w-7xl mx-auto px-6 py-10">
+
+  <!-- Header -->
+  <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-8">
+
+    <div>
+      <h1 class="font-display text-3xl font-bold text-slate-900">My Timetable</h1>
+      <p class="mt-2 text-slate-600">View your weekly class schedule.</p>
+    </div>
+
+    <button id="printBtn"
+            type="button"
+            class="bg-slate-800 hover:bg-primary-900 text-white px-5 py-3 rounded-lg font-semibold no-print">
+      Print Timetable
+    </button>
+
+  </div>
+
+
+  <!-- Student info -->
+  <div class="bg-white border border-slate-200 rounded-xl shadow-sm p-6 mb-6">
+    <div class="grid md:grid-cols-3 gap-6">
+
+      <div>
+        <p class="text-sm text-slate-500">Student</p>
+        <p id="studentName" class="font-semibold text-lg mt-1">-</p>
+      </div>
+
+      <div class="no-print">
+        <label for="yearSelect" class="block text-sm text-slate-500">Year</label>
+        <select id="yearSelect"
+                class="mt-1 w-full px-4 py-2.5 border border-slate-300 rounded-lg outline-none focus:ring-2 focus:ring-accent bg-white">
+          <option value="">Select your year</option>
+          <option value="FY">FY (First Year)</option>
+          <option value="SY">SY (Second Year)</option>
+          <option value="TY">TY (Third Year)</option>
+        </select>
+      </div>
+
+      <div>
+        <label for="batchSelect" class="block text-sm text-slate-500 no-print">Batch</label>
+        <select id="batchSelect"
+                class="mt-1 w-full px-4 py-2.5 border border-slate-300 rounded-lg outline-none focus:ring-2 focus:ring-accent bg-white no-print">
+        </select>
+        <p id="batchPrint" class="hidden print:block font-semibold text-lg mt-1"></p>
+      </div>
+
+    </div>
+  </div>
+
+
+  <!-- Message -->
+  <p id="pageMsg" class="hidden mb-6 text-sm font-semibold"></p>
+
+
+  <!-- Timetable -->
+  <div class="bg-white border border-slate-200 rounded-xl shadow-sm overflow-hidden">
+
+    <div class="px-6 py-5 border-b border-slate-200">
+      <h2 class="font-display text-xl font-bold">Weekly Schedule</h2>
+    </div>
+
+    <div id="gridBox" class="overflow-x-auto p-4">
+      <p class="px-2 py-8 text-center text-slate-500">Loading...</p>
+    </div>
+
+  </div>
+
+</main>
+
+<script src="../js/api.js"></script>
+<script>
+  requireLogin();
+
+  const DAYS = [
+    ["MON", "Monday"], ["TUE", "Tuesday"], ["WED", "Wednesday"],
+    ["THU", "Thursday"], ["FRI", "Friday"], ["SAT", "Saturday"]
+  ];
+
+  const COLORS = [
+    "bg-blue-50 border-blue-200",
+    "bg-green-50 border-green-200",
+    "bg-purple-50 border-purple-200",
+    "bg-orange-50 border-orange-200",
+    "bg-pink-50 border-pink-200",
+    "bg-yellow-50 border-yellow-200",
+    "bg-teal-50 border-teal-200",
+    "bg-indigo-50 border-indigo-200"
+  ];
+
+  const user = getUser();
+  const YEAR_KEY = "myYear_" + (user ? user.id : "");
+  const BATCH_KEY = "myBatchId_" + (user ? user.id : "");
+
+  let allBatches = [];
+
+  const yearSelect = document.getElementById("yearSelect");
+  const batchSelect = document.getElementById("batchSelect");
+  const batchPrint = document.getElementById("batchPrint");
+  const gridBox = document.getElementById("gridBox");
+  const pageMsg = document.getElementById("pageMsg");
+
+  document.getElementById("studentName").textContent = user ? user.name : "-";
+
+  function showPageMsg(text) {
+    pageMsg.textContent = text;
+    pageMsg.className = "mb-6 text-sm font-semibold text-red-600";
+  }
+
+  function hidePageMsg() {
+    pageMsg.className = "hidden mb-6 text-sm font-semibold";
+  }
+
+  function colorFor(name) {
+    let hash = 0;
+    for (let i = 0; i < name.length; i++) {
+      hash = (hash * 31 + name.charCodeAt(i)) % 1000;
+    }
+    return COLORS[hash % COLORS.length];
+  }
+
+  function showEmpty(text) {
+    gridBox.innerHTML = "";
+    const p = document.createElement("p");
+    p.className = "px-2 py-10 text-center text-slate-500";
+    p.textContent = text;
+    gridBox.appendChild(p);
+  }
+
+  function renderGrid(entries) {
+    if (entries.length === 0) {
+      showEmpty("No timetable has been published for this batch yet. Please check again later.");
+      return;
+    }
+
+    const byKey = {};
+    let maxPeriod = 6;
+    entries.forEach(function (e) {
+      byKey[e.day + "_" + e.periodNumber] = e;
+      if (e.periodNumber > maxPeriod) maxPeriod = e.periodNumber;
+    });
+
+    const table = document.createElement("table");
+    table.className = "w-full min-w-[800px] text-sm border-collapse";
+
+    const thead = document.createElement("thead");
+    const headRow = document.createElement("tr");
+    const corner = document.createElement("th");
+    corner.className = "border border-slate-200 bg-slate-100 px-3 py-3 text-left w-24";
+    corner.textContent = "Period";
+    headRow.appendChild(corner);
+    DAYS.forEach(function (d) {
+      const th = document.createElement("th");
+      th.className = "border border-slate-200 bg-slate-100 px-3 py-3 text-left";
+      th.textContent = d[1];
+      headRow.appendChild(th);
+    });
+    thead.appendChild(headRow);
+    table.appendChild(thead);
+
+    const tbody = document.createElement("tbody");
+    for (let p = 1; p <= maxPeriod; p++) {
+      const tr = document.createElement("tr");
+
+      const label = document.createElement("td");
+      label.className = "border border-slate-200 bg-canvas px-3 py-3 font-semibold";
+      label.textContent = "Period " + p;
+      tr.appendChild(label);
+
+      DAYS.forEach(function (d) {
+        const td = document.createElement("td");
+        td.className = "border border-slate-200 p-2 align-top";
+        const entry = byKey[d[0] + "_" + p];
+
+        if (entry) {
+          const card = document.createElement("div");
+          card.className = "rounded-lg border px-3 py-2 " + colorFor(entry.subjectName);
+
+          const subject = document.createElement("p");
+          subject.className = "font-semibold";
+          subject.textContent = entry.subjectName;
+          card.appendChild(subject);
+
+          const teacher = document.createElement("p");
+          teacher.className = "text-xs text-slate-600 mt-0.5";
+          teacher.textContent = entry.teacherName;
+          card.appendChild(teacher);
+
+          if (entry.roomName) {
+            const room = document.createElement("p");
+            room.className = "text-xs text-slate-500";
+            room.textContent = entry.roomName;
+            card.appendChild(room);
+          }
+
+          td.appendChild(card);
+        } else {
+          const free = document.createElement("p");
+          free.className = "text-center text-slate-300";
+          free.textContent = "-";
+          td.appendChild(free);
+        }
+
+        tr.appendChild(td);
+      });
+
+      tbody.appendChild(tr);
+    }
+    table.appendChild(tbody);
+
+    gridBox.innerHTML = "";
+    gridBox.appendChild(table);
+  }
+
+  async function loadTimetable() {
+    hidePageMsg();
+    const batchId = batchSelect.value;
+
+    if (batchId === "") {
+      batchPrint.textContent = "";
+      showEmpty("Please select your batch to see your timetable.");
+      return;
+    }
+
+    localStorage.setItem(BATCH_KEY, batchId);
+    batchPrint.textContent = batchSelect.options[batchSelect.selectedIndex].textContent;
+
+    showEmpty("Loading...");
+    try {
+      const entries = await apiRequest("/timetable/" + batchId);
+      renderGrid(entries);
+    } catch (err) {
+      gridBox.innerHTML = "";
+      showPageMsg(err.message);
+    }
+  }
+
+  function fillBatchesForYear(year, preselectId) {
+    batchSelect.innerHTML = "";
+
+    const placeholder = document.createElement("option");
+    placeholder.value = "";
+    placeholder.textContent = "Select your batch";
+    batchSelect.appendChild(placeholder);
+
+    const filtered = allBatches.filter(function (b) { return b.year === year; });
+
+    filtered.forEach(function (b) {
+      const option = document.createElement("option");
+      option.value = b.id;
+      option.textContent = b.name;
+      batchSelect.appendChild(option);
+    });
+
+    if (filtered.length === 0) {
+      showEmpty("No batches found for " + year + " yet.");
+    }
+
+    const exists = filtered.some(function (b) { return String(b.id) === preselectId; });
+    batchSelect.value = exists ? preselectId : "";
+    loadTimetable();
+  }
+
+  yearSelect.addEventListener("change", function () {
+    localStorage.setItem(YEAR_KEY, yearSelect.value);
+    if (yearSelect.value === "") {
+      batchSelect.innerHTML = "";
+      showEmpty("Please select your year first.");
+      return;
+    }
+    fillBatchesForYear(yearSelect.value, localStorage.getItem(BATCH_KEY));
+  });
+
+  batchSelect.addEventListener("change", loadTimetable);
+
+  async function init() {
+    try {
+      allBatches = await apiRequest("/batches");
+
+      if (allBatches.length === 0) {
+        yearSelect.disabled = true;
+        showEmpty("No batches have been created yet.");
+        return;
+      }
+
+      const savedYear = localStorage.getItem(YEAR_KEY) || "";
+      const savedBatch = localStorage.getItem(BATCH_KEY) || "";
+
+      if (savedYear) {
+        yearSelect.value = savedYear;
+        fillBatchesForYear(savedYear, savedBatch);
+      } else {
+        showEmpty("Please select your year first.");
+      }
+    } catch (err) {
+      gridBox.innerHTML = "";
+      showPageMsg(err.message);
+    }
+  }
+
+  document.getElementById("printBtn").addEventListener("click", function () {
+    window.print();
+  });
+
+  init();
+</script>
+
+</body>
+</html>

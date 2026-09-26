@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Manage Users - Smart Timetable Scheduler</title>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;500;600;700;800&family=Sora:wght@600;700;800&display=swap" rel="stylesheet">
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            primary: { DEFAULT: '#1B2A4A', 50: '#EEF1F6', 100: '#D7DEEA', 600: '#1B2A4A', 700: '#152038', 900: '#0D1526' },
+            accent: { DEFAULT: '#0F6D66', 50: '#E7F4F2', 600: '#0F6D66', 700: '#0B5652' },
+            canvas: '#F6F6F4'
+          },
+          fontFamily: {
+            display: ['Sora', 'sans-serif'],
+            sans: ['"Public Sans"', 'sans-serif']
+          }
+        }
+      }
+    }
+  </script>
+  <link rel="stylesheet" href="../css/theme.css">
+
+</head>
+
+<body class="bg-canvas text-slate-800">
+
+<div class="app-shell">
+
+  <!-- Sidebar -->
+  <aside class="sidebar no-print">
+    <div class="sidebar-brand">
+      <div class="sidebar-brand-mark">Smart Timetable</div>
+      <div class="sidebar-brand-sub">Admin Console</div>
+    </div>
+
+    <nav class="sidebar-nav">
+      <a href="dashboard.html" class="sidebar-link"><span class="icon">🏠</span> Dashboard</a>
+      <a href="teachers.html" class="sidebar-link"><span class="icon">👨‍🏫</span> Teachers</a>
+      <a href="subjects.html" class="sidebar-link"><span class="icon">📚</span> Subjects</a>
+      <a href="batches.html" class="sidebar-link"><span class="icon">👥</span> Batches</a>
+      <a href="rooms.html" class="sidebar-link"><span class="icon">🏫</span> Rooms</a>
+      <a href="generate-timetable.html" class="sidebar-link"><span class="icon">⚙️</span> Generate Timetable</a>
+      <a href="timetable.html" class="sidebar-link"><span class="icon">📅</span> View Timetable</a>
+      <a href="users.html" class="sidebar-link active"><span class="icon">🧑‍💼</span> Manage Users</a>
+    </nav>
+
+    <div class="sidebar-footer">
+      <a href="../login.html" class="sidebar-link"><span class="icon">&#8630;</span> Logout</a>
+    </div>
+  </aside>
+
+  <!-- Main -->
+  <div class="app-main">
+    <div class="topbar no-print">
+      <div class="font-display font-semibold text-slate-800">Manage Users</div>
+      <div class="text-sm text-slate-500">Welcome, Admin</div>
+    </div>
+
+    <main class="app-content">
+
+    <!-- Header -->
+    <div class="mb-8">
+        <h1 class="font-display text-3xl font-bold text-slate-900">Manage Users</h1>
+        <p class="mt-2 text-slate-600">View everyone who has signed up, and remove an account if needed.</p>
+    </div>
+
+
+    <!-- Search -->
+    <div class="bg-white border border-slate-200 rounded-xl shadow-sm p-5 mb-6">
+        <input type="text"
+               id="searchInput"
+               placeholder="Search by name or email..."
+               class="w-full px-4 py-3 border border-slate-300 rounded-lg outline-none focus:ring-2 focus:ring-accent">
+    </div>
+
+
+    <!-- Page message -->
+    <p id="pageMsg" class="hidden mb-6 text-sm font-semibold"></p>
+
+
+    <!-- Table -->
+    <div class="bg-white border border-slate-200 rounded-xl shadow-sm overflow-hidden">
+
+        <div class="px-6 py-5 border-b border-slate-200">
+            <h2 class="font-display text-xl font-bold">User List</h2>
+        </div>
+
+        <div class="overflow-x-auto">
+            <table class="w-full text-sm">
+
+                <thead class="bg-slate-100">
+                <tr>
+                    <th class="px-6 py-4 text-left">ID</th>
+                    <th class="px-6 py-4 text-left">Name</th>
+                    <th class="px-6 py-4 text-left">Email</th>
+                    <th class="px-6 py-4 text-left">Role</th>
+                    <th class="px-6 py-4 text-left">Joined</th>
+                    <th class="px-6 py-4 text-left">Actions</th>
+                </tr>
+                </thead>
+
+                <tbody id="tableBody" class="divide-y divide-slate-200">
+                <tr>
+                    <td colspan="6" class="px-6 py-8 text-center text-slate-500">Loading...</td>
+                </tr>
+                </tbody>
+
+            </table>
+        </div>
+
+    </div>
+
+</main>
+  </div>
+</div>
+
+<script src="../js/api.js"></script>
+<script>
+    requireLogin("ADMIN");
+
+    let users = [];
+    const currentUserId = getUser() ? getUser().id : null;
+
+    const tbody = document.getElementById("tableBody");
+    const searchInput = document.getElementById("searchInput");
+    const pageMsg = document.getElementById("pageMsg");
+
+    function showPageMsg(text, ok) {
+      pageMsg.textContent = text;
+      pageMsg.className = "mb-6 text-sm font-semibold " + (ok ? "text-green-600" : "text-red-600");
+    }
+
+    function hidePageMsg() {
+      pageMsg.className = "hidden mb-6 text-sm font-semibold";
+    }
+
+    function makeCell(text, extraClass) {
+      const td = document.createElement("td");
+      td.className = "px-6 py-4 " + (extraClass || "");
+      td.textContent = text;
+      return td;
+    }
+
+    function formatDate(iso) {
+      if (!iso) return "-";
+      const d = new Date(iso);
+      if (isNaN(d.getTime())) return "-";
+      return d.toLocaleDateString("en-GB", { day: "2-digit", month: "short", year: "numeric" });
+    }
+
+    function renderTable() {
+      const query = searchInput.value.trim().toLowerCase();
+      const list = users.filter(function (u) {
+        return u.name.toLowerCase().includes(query) || u.email.toLowerCase().includes(query);
+      });
+
+      tbody.innerHTML = "";
+
+      if (list.length === 0) {
+        const tr = document.createElement("tr");
+        const td = document.createElement("td");
+        td.colSpan = 6;
+        td.className = "px-6 py-8 text-center text-slate-500";
+        td.textContent = users.length === 0 ? "No users yet." : "No users match your search.";
+        tr.appendChild(td);
+        tbody.appendChild(tr);
+        return;
+      }
+
+      list.forEach(function (u) {
+        const tr = document.createElement("tr");
+
+        tr.appendChild(makeCell(u.id));
+        tr.appendChild(makeCell(u.name, "font-semibold"));
+        tr.appendChild(makeCell(u.email));
+
+        const roleTd = document.createElement("td");
+        roleTd.className = "px-6 py-4";
+        const badge = document.createElement("span");
+        badge.className = "px-3 py-1 rounded-full text-xs font-semibold " +
+          (u.role === "ADMIN" ? "bg-purple-100 text-purple-700" : "bg-blue-100 text-accent-700");
+        badge.textContent = u.role;
+        roleTd.appendChild(badge);
+        tr.appendChild(roleTd);
+
+        tr.appendChild(makeCell(formatDate(u.createdAt)));
+
+        const actions = document.createElement("td");
+        actions.className = "px-6 py-4";
+        if (u.role === "ADMIN" || u.id === currentUserId) {
+          const span = document.createElement("span");
+          span.className = "text-xs text-slate-400";
+          span.textContent = "-";
+          actions.appendChild(span);
+        } else {
+          const btn = document.createElement("button");
+          btn.type = "button";
+          btn.textContent = "Delete";
+          btn.className = "px-3 py-2 rounded-lg font-semibold bg-red-100 text-red-700 hover:bg-red-200";
+          btn.addEventListener("click", function () { deleteUser(u); });
+          actions.appendChild(btn);
+        }
+        tr.appendChild(actions);
+
+        tbody.appendChild(tr);
+      });
+    }
+
+    async function loadUsers() {
+      try {
+        users = await apiRequest("/users");
+        renderTable();
+      } catch (err) {
+        tbody.innerHTML = "";
+        showPageMsg(err.message, false);
+      }
+    }
+
+    async function deleteUser(u) {
+      if (!confirm('Delete the account of "' + u.name + '" (' + u.email + ')? This cannot be undone.')) return;
+
+      hidePageMsg();
+      try {
+        await apiRequest("/users/" + u.id, "DELETE");
+        showPageMsg("User deleted successfully.", true);
+        await loadUsers();
+      } catch (err) {
+        showPageMsg(err.message, false);
+      }
+    }
+
+    searchInput.addEventListener("input", renderTable);
+
+    loadUsers();
+</script>
+
+</body>
+</html>
