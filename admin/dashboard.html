@@ -6,6 +6,7 @@
 
   <title>Admin Dashboard - Smart Timetable Scheduler</title>
 
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 34 34'%3E%3Crect width='34' height='34' rx='9' fill='%230F6D66'/%3E%3Crect x='7' y='9' width='20' height='16' rx='3' fill='%23F6F6F4'/%3E%3Crect x='7' y='9' width='20' height='5' rx='2.5' fill='%231B2A4A'/%3E%3Ccircle cx='11.5' cy='7' r='1.6' fill='%231B2A4A'/%3E%3Ccircle cx='22.5' cy='7' r='1.6' fill='%231B2A4A'/%3E%3Crect x='10.5' y='17' width='4' height='4' rx='1' fill='%230F6D66'/%3E%3Crect x='16' y='17' width='4' height='4' rx='1' fill='%23C7CDDB'/%3E%3Crect x='21.5' y='17' width='4' height='4' rx='1' fill='%23C7CDDB'/%3E%3C/svg%3E">
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -38,7 +39,19 @@
   <!-- Sidebar -->
   <aside class="sidebar no-print">
     <div class="sidebar-brand">
-      <div class="sidebar-brand-mark">Smart Timetable</div>
+      <div class="flex items-center gap-2.5">
+        <svg width="26" height="26" viewBox="0 0 34 34" fill="none" xmlns="http://www.w3.org/2000/svg" class="shrink-0">
+          <rect width="34" height="34" rx="9" fill="#17A398"/>
+          <rect x="7" y="9" width="20" height="16" rx="3" fill="#F6F6F4"/>
+          <rect x="7" y="9" width="20" height="5" rx="2.5" fill="#12192B"/>
+          <circle cx="11.5" cy="7" r="1.6" fill="#12192B"/>
+          <circle cx="22.5" cy="7" r="1.6" fill="#12192B"/>
+          <rect x="10.5" y="17" width="4" height="4" rx="1" fill="#17A398"/>
+          <rect x="16" y="17" width="4" height="4" rx="1" fill="#C7CDDB"/>
+          <rect x="21.5" y="17" width="4" height="4" rx="1" fill="#C7CDDB"/>
+        </svg>
+        <div class="sidebar-brand-mark">Smart Timetable</div>
+      </div>
       <div class="sidebar-brand-sub">Admin Console</div>
     </div>
 
@@ -67,131 +80,131 @@
 
     <main class="app-content">
 
-  <!-- Heading -->
-  <div class="mb-8">
-    <h1 class="font-display text-3xl font-bold text-slate-900">Admin Dashboard</h1>
-    <p class="mt-2 text-slate-600">Manage timetable resources and generate schedules.</p>
-  </div>
-
-
-  <!-- Statistics -->
-  <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-10">
-
-    <!-- Teachers -->
-    <div class="bg-white border border-slate-200 rounded-xl shadow-sm p-6">
-      <div class="flex items-center justify-between">
-        <div>
-          <p class="text-sm text-slate-500">Teachers</p>
-          <p id="countTeachers" class="text-3xl font-bold mt-2">-</p>
-        </div>
-        <div class="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center text-2xl">👨‍🏫</div>
+      <!-- Heading -->
+      <div class="mb-8">
+        <h1 class="font-display text-3xl font-bold text-slate-900">Admin Dashboard</h1>
+        <p class="mt-2 text-slate-600">Manage timetable resources and generate schedules.</p>
       </div>
-    </div>
 
-    <!-- Subjects -->
-    <div class="bg-white border border-slate-200 rounded-xl shadow-sm p-6">
-      <div class="flex items-center justify-between">
-        <div>
-          <p class="text-sm text-slate-500">Subjects</p>
-          <p id="countSubjects" class="text-3xl font-bold mt-2">-</p>
+
+      <!-- Statistics -->
+      <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-10">
+
+        <!-- Teachers -->
+        <div class="bg-white border border-slate-200 rounded-xl shadow-sm p-6">
+          <div class="flex items-center justify-between">
+            <div>
+              <p class="text-sm text-slate-500">Teachers</p>
+              <p id="countTeachers" class="text-3xl font-bold mt-2">-</p>
+            </div>
+            <div class="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center text-2xl">👨‍🏫</div>
+          </div>
         </div>
-        <div class="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center text-2xl">📚</div>
-      </div>
-    </div>
 
-    <!-- Batches -->
-    <div class="bg-white border border-slate-200 rounded-xl shadow-sm p-6">
-      <div class="flex items-center justify-between">
-        <div>
-          <p class="text-sm text-slate-500">Batches</p>
-          <p id="countBatches" class="text-3xl font-bold mt-2">-</p>
+        <!-- Subjects -->
+        <div class="bg-white border border-slate-200 rounded-xl shadow-sm p-6">
+          <div class="flex items-center justify-between">
+            <div>
+              <p class="text-sm text-slate-500">Subjects</p>
+              <p id="countSubjects" class="text-3xl font-bold mt-2">-</p>
+            </div>
+            <div class="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center text-2xl">📚</div>
+          </div>
         </div>
-        <div class="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center text-2xl">👥</div>
-      </div>
-    </div>
 
-    <!-- Rooms -->
-    <div class="bg-white border border-slate-200 rounded-xl shadow-sm p-6">
-      <div class="flex items-center justify-between">
-        <div>
-          <p class="text-sm text-slate-500">Rooms</p>
-          <p id="countRooms" class="text-3xl font-bold mt-2">-</p>
+        <!-- Batches -->
+        <div class="bg-white border border-slate-200 rounded-xl shadow-sm p-6">
+          <div class="flex items-center justify-between">
+            <div>
+              <p class="text-sm text-slate-500">Batches</p>
+              <p id="countBatches" class="text-3xl font-bold mt-2">-</p>
+            </div>
+            <div class="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center text-2xl">👥</div>
+          </div>
         </div>
-        <div class="w-12 h-12 bg-orange-100 rounded-lg flex items-center justify-center text-2xl">🏫</div>
+
+        <!-- Rooms -->
+        <div class="bg-white border border-slate-200 rounded-xl shadow-sm p-6">
+          <div class="flex items-center justify-between">
+            <div>
+              <p class="text-sm text-slate-500">Rooms</p>
+              <p id="countRooms" class="text-3xl font-bold mt-2">-</p>
+            </div>
+            <div class="w-12 h-12 bg-orange-100 rounded-lg flex items-center justify-center text-2xl">🏫</div>
+          </div>
+        </div>
+
       </div>
-    </div>
-
-  </div>
 
 
-  <!-- Management -->
-  <section>
+      <!-- Management -->
+      <section>
 
-    <h2 class="font-display text-2xl font-bold text-slate-900 mb-6">Management</h2>
+        <h2 class="font-display text-2xl font-bold text-slate-900 mb-6">Management</h2>
 
-    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
 
-      <!-- Teachers -->
-      <a href="teachers.html"
-         class="bg-white border border-slate-200 rounded-xl shadow-sm p-6 hover:shadow-md transition">
-        <div class="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center text-2xl mb-5">👨‍🏫</div>
-        <h3 class="font-display text-xl font-bold">Manage Teachers</h3>
-        <p class="text-slate-600 mt-2">Add, update, view and manage teachers.</p>
-      </a>
+          <!-- Teachers -->
+          <a href="teachers.html"
+             class="bg-white border border-slate-200 rounded-xl shadow-sm p-6 hover:shadow-md transition">
+            <div class="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center text-2xl mb-5">👨‍🏫</div>
+            <h3 class="font-display text-xl font-bold">Manage Teachers</h3>
+            <p class="text-slate-600 mt-2">Add, update, view and manage teachers.</p>
+          </a>
 
-      <!-- Subjects -->
-      <a href="subjects.html"
-         class="bg-white border border-slate-200 rounded-xl shadow-sm p-6 hover:shadow-md transition">
-        <div class="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center text-2xl mb-5">📚</div>
-        <h3 class="font-display text-xl font-bold">Manage Subjects</h3>
-        <p class="text-slate-600 mt-2">Manage subjects and weekly requirements.</p>
-      </a>
+          <!-- Subjects -->
+          <a href="subjects.html"
+             class="bg-white border border-slate-200 rounded-xl shadow-sm p-6 hover:shadow-md transition">
+            <div class="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center text-2xl mb-5">📚</div>
+            <h3 class="font-display text-xl font-bold">Manage Subjects</h3>
+            <p class="text-slate-600 mt-2">Manage subjects and weekly requirements.</p>
+          </a>
 
-      <!-- Batches -->
-      <a href="batches.html"
-         class="bg-white border border-slate-200 rounded-xl shadow-sm p-6 hover:shadow-md transition">
-        <div class="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center text-2xl mb-5">👥</div>
-        <h3 class="font-display text-xl font-bold">Manage Batches</h3>
-        <p class="text-slate-600 mt-2">Manage student batches and divisions.</p>
-      </a>
+          <!-- Batches -->
+          <a href="batches.html"
+             class="bg-white border border-slate-200 rounded-xl shadow-sm p-6 hover:shadow-md transition">
+            <div class="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center text-2xl mb-5">👥</div>
+            <h3 class="font-display text-xl font-bold">Manage Batches</h3>
+            <p class="text-slate-600 mt-2">Manage student batches and divisions.</p>
+          </a>
 
-      <!-- Rooms -->
-      <a href="rooms.html"
-         class="bg-white border border-slate-200 rounded-xl shadow-sm p-6 hover:shadow-md transition">
-        <div class="w-12 h-12 bg-orange-100 rounded-lg flex items-center justify-center text-2xl mb-5">🏫</div>
-        <h3 class="font-display text-xl font-bold">Manage Rooms</h3>
-        <p class="text-slate-600 mt-2">Manage classrooms, labs and capacities.</p>
-      </a>
+          <!-- Rooms -->
+          <a href="rooms.html"
+             class="bg-white border border-slate-200 rounded-xl shadow-sm p-6 hover:shadow-md transition">
+            <div class="w-12 h-12 bg-orange-100 rounded-lg flex items-center justify-center text-2xl mb-5">🏫</div>
+            <h3 class="font-display text-xl font-bold">Manage Rooms</h3>
+            <p class="text-slate-600 mt-2">Manage classrooms, labs and capacities.</p>
+          </a>
 
-      <!-- Generate Timetable -->
-      <a href="generate-timetable.html"
-         class="bg-white border border-slate-200 rounded-xl shadow-sm p-6 hover:shadow-md transition">
-        <div class="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center text-2xl mb-5">⚙️</div>
-        <h3 class="font-display text-xl font-bold">Generate Timetable</h3>
-        <p class="text-slate-600 mt-2">Generate a clash-free timetable automatically.</p>
-      </a>
+          <!-- Generate Timetable -->
+          <a href="generate-timetable.html"
+             class="bg-white border border-slate-200 rounded-xl shadow-sm p-6 hover:shadow-md transition">
+            <div class="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center text-2xl mb-5">⚙️</div>
+            <h3 class="font-display text-xl font-bold">Generate Timetable</h3>
+            <p class="text-slate-600 mt-2">Generate a clash-free timetable automatically.</p>
+          </a>
 
-      <!-- View Timetable -->
-      <a href="timetable.html"
-         class="bg-white border border-slate-200 rounded-xl shadow-sm p-6 hover:shadow-md transition">
-        <div class="w-12 h-12 bg-indigo-100 rounded-lg flex items-center justify-center text-2xl mb-5">📅</div>
-        <h3 class="font-display text-xl font-bold">View Timetable</h3>
-        <p class="text-slate-600 mt-2">View the generated timetable of any batch.</p>
-      </a>
+          <!-- View Timetable -->
+          <a href="timetable.html"
+             class="bg-white border border-slate-200 rounded-xl shadow-sm p-6 hover:shadow-md transition">
+            <div class="w-12 h-12 bg-indigo-100 rounded-lg flex items-center justify-center text-2xl mb-5">📅</div>
+            <h3 class="font-display text-xl font-bold">View Timetable</h3>
+            <p class="text-slate-600 mt-2">View the generated timetable of any batch.</p>
+          </a>
 
-      <!-- Manage Users -->
-      <a href="users.html"
-         class="bg-white border border-slate-200 rounded-xl shadow-sm p-6 hover:shadow-md transition">
-        <div class="w-12 h-12 bg-pink-100 rounded-lg flex items-center justify-center text-2xl mb-5">👥</div>
-        <h3 class="font-display text-xl font-bold">Manage Users</h3>
-        <p class="text-slate-600 mt-2">View signed-up users and remove accounts.</p>
-      </a>
+          <!-- Manage Users -->
+          <a href="users.html"
+             class="bg-white border border-slate-200 rounded-xl shadow-sm p-6 hover:shadow-md transition">
+            <div class="w-12 h-12 bg-pink-100 rounded-lg flex items-center justify-center text-2xl mb-5">👥</div>
+            <h3 class="font-display text-xl font-bold">Manage Users</h3>
+            <p class="text-slate-600 mt-2">View signed-up users and remove accounts.</p>
+          </a>
 
-    </div>
+        </div>
 
-  </section>
+      </section>
 
-</main>
+    </main>
   </div>
 </div>
 

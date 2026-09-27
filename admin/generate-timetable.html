@@ -6,6 +6,7 @@
 
   <title>Generate Timetable - Smart Timetable Scheduler</title>
 
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 34 34'%3E%3Crect width='34' height='34' rx='9' fill='%230F6D66'/%3E%3Crect x='7' y='9' width='20' height='16' rx='3' fill='%23F6F6F4'/%3E%3Crect x='7' y='9' width='20' height='5' rx='2.5' fill='%231B2A4A'/%3E%3Ccircle cx='11.5' cy='7' r='1.6' fill='%231B2A4A'/%3E%3Ccircle cx='22.5' cy='7' r='1.6' fill='%231B2A4A'/%3E%3Crect x='10.5' y='17' width='4' height='4' rx='1' fill='%230F6D66'/%3E%3Crect x='16' y='17' width='4' height='4' rx='1' fill='%23C7CDDB'/%3E%3Crect x='21.5' y='17' width='4' height='4' rx='1' fill='%23C7CDDB'/%3E%3C/svg%3E">
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -38,7 +39,19 @@
   <!-- Sidebar -->
   <aside class="sidebar no-print">
     <div class="sidebar-brand">
-      <div class="sidebar-brand-mark">Smart Timetable</div>
+      <div class="flex items-center gap-2.5">
+        <svg width="26" height="26" viewBox="0 0 34 34" fill="none" xmlns="http://www.w3.org/2000/svg" class="shrink-0">
+          <rect width="34" height="34" rx="9" fill="#17A398"/>
+          <rect x="7" y="9" width="20" height="16" rx="3" fill="#F6F6F4"/>
+          <rect x="7" y="9" width="20" height="5" rx="2.5" fill="#12192B"/>
+          <circle cx="11.5" cy="7" r="1.6" fill="#12192B"/>
+          <circle cx="22.5" cy="7" r="1.6" fill="#12192B"/>
+          <rect x="10.5" y="17" width="4" height="4" rx="1" fill="#17A398"/>
+          <rect x="16" y="17" width="4" height="4" rx="1" fill="#C7CDDB"/>
+          <rect x="21.5" y="17" width="4" height="4" rx="1" fill="#C7CDDB"/>
+        </svg>
+        <div class="sidebar-brand-mark">Smart Timetable</div>
+      </div>
       <div class="sidebar-brand-sub">Admin Console</div>
     </div>
 
@@ -67,75 +80,75 @@
 
     <main class="app-content">
 
-  <!-- Heading -->
-  <div class="mb-8">
-    <h1 class="font-display text-3xl font-bold text-slate-900">Generate Timetable</h1>
-    <p class="mt-2 text-slate-600">Create a clash-free timetable for all batches with one click.</p>
-  </div>
+      <!-- Heading -->
+      <div class="mb-8">
+        <h1 class="font-display text-3xl font-bold text-slate-900">Generate Timetable</h1>
+        <p class="mt-2 text-slate-600">Create a clash-free timetable for all batches with one click.</p>
+      </div>
 
 
-  <!-- How it works -->
-  <div class="bg-white border border-slate-200 rounded-xl shadow-sm p-6 mb-6">
-    <h2 class="font-display text-lg font-bold mb-3">How it works</h2>
-    <ul class="list-disc pl-5 space-y-1 text-sm text-slate-600">
-      <li>A teacher is never placed in two classes at the same time.</li>
-      <li>A batch never has two subjects at the same time.</li>
-      <li>Lectures of a subject are spread across different days where possible.</li>
-      <li>Generating again replaces the existing timetable of all batches.</li>
-    </ul>
-  </div>
+      <!-- How it works -->
+      <div class="bg-white border border-slate-200 rounded-xl shadow-sm p-6 mb-6">
+        <h2 class="font-display text-lg font-bold mb-3">How it works</h2>
+        <ul class="list-disc pl-5 space-y-1 text-sm text-slate-600">
+          <li>A teacher is never placed in two classes at the same time.</li>
+          <li>A batch never has two subjects at the same time.</li>
+          <li>Lectures of a subject are spread across different days where possible.</li>
+          <li>Generating again replaces the existing timetable of all batches.</li>
+        </ul>
+      </div>
 
 
-  <!-- Batch summary -->
-  <div class="bg-white border border-slate-200 rounded-xl shadow-sm overflow-hidden mb-6">
+      <!-- Batch summary -->
+      <div class="bg-white border border-slate-200 rounded-xl shadow-sm overflow-hidden mb-6">
 
-    <div class="px-6 py-5 border-b border-slate-200">
-      <h2 class="font-display text-lg font-bold">Before you generate</h2>
-      <p class="text-sm text-slate-500 mt-1">Each batch has 36 periods per week (6 days, 6 periods each).</p>
-    </div>
+        <div class="px-6 py-5 border-b border-slate-200">
+          <h2 class="font-display text-lg font-bold">Before you generate</h2>
+          <p class="text-sm text-slate-500 mt-1">Each batch has 36 periods per week (6 days, 6 periods each).</p>
+        </div>
 
-    <div class="overflow-x-auto">
-      <table class="w-full text-sm">
-        <thead class="bg-slate-100">
-        <tr>
-          <th class="px-6 py-3 text-left">Batch</th>
-          <th class="px-6 py-3 text-left">Subjects</th>
-          <th class="px-6 py-3 text-left">Lectures / Week</th>
-          <th class="px-6 py-3 text-left">Status</th>
-        </tr>
-        </thead>
-        <tbody id="summaryBody" class="divide-y divide-slate-200">
-        <tr>
-          <td colspan="4" class="px-6 py-6 text-center text-slate-500">Loading...</td>
-        </tr>
-        </tbody>
-      </table>
-    </div>
+        <div class="overflow-x-auto">
+          <table class="w-full text-sm">
+            <thead class="bg-slate-100">
+            <tr>
+              <th class="px-6 py-3 text-left">Batch</th>
+              <th class="px-6 py-3 text-left">Subjects</th>
+              <th class="px-6 py-3 text-left">Lectures / Week</th>
+              <th class="px-6 py-3 text-left">Status</th>
+            </tr>
+            </thead>
+            <tbody id="summaryBody" class="divide-y divide-slate-200">
+            <tr>
+              <td colspan="4" class="px-6 py-6 text-center text-slate-500">Loading...</td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
 
-  </div>
-
-
-  <!-- Result -->
-  <div id="resultBox" class="mb-6"></div>
+      </div>
 
 
-  <!-- Buttons -->
-  <div class="flex flex-wrap gap-4">
+      <!-- Result -->
+      <div id="resultBox" class="mb-6"></div>
 
-    <button id="generateBtn"
-            type="button"
-            class="bg-primary hover:bg-primary-700 disabled:opacity-50 disabled:cursor-not-allowed text-white px-8 py-4 rounded-lg font-semibold text-lg">
-      Generate Timetable
-    </button>
 
-    <a href="timetable.html"
-       class="border border-slate-300 hover:bg-slate-100 px-8 py-4 rounded-lg font-semibold text-lg">
-      View Timetable
-    </a>
+      <!-- Buttons -->
+      <div class="flex flex-wrap gap-4">
 
-  </div>
+        <button id="generateBtn"
+                type="button"
+                class="bg-primary hover:bg-primary-700 disabled:opacity-50 disabled:cursor-not-allowed text-white px-8 py-4 rounded-lg font-semibold text-lg">
+          Generate Timetable
+        </button>
 
-</main>
+        <a href="timetable.html"
+           class="border border-slate-300 hover:bg-slate-100 px-8 py-4 rounded-lg font-semibold text-lg">
+          View Timetable
+        </a>
+
+      </div>
+
+    </main>
   </div>
 </div>
 

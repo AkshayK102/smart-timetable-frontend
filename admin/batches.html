@@ -7,28 +7,29 @@
 
     <title>Manage Batches - Smart Timetable Scheduler</title>
 
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 34 34'%3E%3Crect width='34' height='34' rx='9' fill='%230F6D66'/%3E%3Crect x='7' y='9' width='20' height='16' rx='3' fill='%23F6F6F4'/%3E%3Crect x='7' y='9' width='20' height='5' rx='2.5' fill='%231B2A4A'/%3E%3Ccircle cx='11.5' cy='7' r='1.6' fill='%231B2A4A'/%3E%3Ccircle cx='22.5' cy='7' r='1.6' fill='%231B2A4A'/%3E%3Crect x='10.5' y='17' width='4' height='4' rx='1' fill='%230F6D66'/%3E%3Crect x='16' y='17' width='4' height='4' rx='1' fill='%23C7CDDB'/%3E%3Crect x='21.5' y='17' width='4' height='4' rx='1' fill='%23C7CDDB'/%3E%3C/svg%3E">
     <script src="https://cdn.tailwindcss.com"></script>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;500;600;700;800&family=Sora:wght@600;700;800&display=swap" rel="stylesheet">
-  <script>
-    tailwind.config = {
-      theme: {
-        extend: {
-          colors: {
-            primary: { DEFAULT: '#1B2A4A', 50: '#EEF1F6', 100: '#D7DEEA', 600: '#1B2A4A', 700: '#152038', 900: '#0D1526' },
-            accent: { DEFAULT: '#0F6D66', 50: '#E7F4F2', 600: '#0F6D66', 700: '#0B5652' },
-            canvas: '#F6F6F4'
-          },
-          fontFamily: {
-            display: ['Sora', 'sans-serif'],
-            sans: ['"Public Sans"', 'sans-serif']
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;500;600;700;800&family=Sora:wght@600;700;800&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+          theme: {
+            extend: {
+              colors: {
+                primary: { DEFAULT: '#1B2A4A', 50: '#EEF1F6', 100: '#D7DEEA', 600: '#1B2A4A', 700: '#152038', 900: '#0D1526' },
+                accent: { DEFAULT: '#0F6D66', 50: '#E7F4F2', 600: '#0F6D66', 700: '#0B5652' },
+                canvas: '#F6F6F4'
+              },
+              fontFamily: {
+                display: ['Sora', 'sans-serif'],
+                sans: ['"Public Sans"', 'sans-serif']
+              }
+            }
           }
         }
-      }
-    }
-  </script>
-  <link rel="stylesheet" href="../css/theme.css">
+    </script>
+    <link rel="stylesheet" href="../css/theme.css">
 
 </head>
 
@@ -36,108 +37,120 @@
 
 <div class="app-shell">
 
-  <!-- Sidebar -->
-  <aside class="sidebar no-print">
-    <div class="sidebar-brand">
-      <div class="sidebar-brand-mark">Smart Timetable</div>
-      <div class="sidebar-brand-sub">Admin Console</div>
-    </div>
-
-    <nav class="sidebar-nav">
-      <a href="dashboard.html" class="sidebar-link"><span class="icon">🏠</span> Dashboard</a>
-      <a href="teachers.html" class="sidebar-link"><span class="icon">👨‍🏫</span> Teachers</a>
-      <a href="subjects.html" class="sidebar-link"><span class="icon">📚</span> Subjects</a>
-      <a href="batches.html" class="sidebar-link active"><span class="icon">👥</span> Batches</a>
-      <a href="rooms.html" class="sidebar-link"><span class="icon">🏫</span> Rooms</a>
-      <a href="generate-timetable.html" class="sidebar-link"><span class="icon">⚙️</span> Generate Timetable</a>
-      <a href="timetable.html" class="sidebar-link"><span class="icon">📅</span> View Timetable</a>
-      <a href="users.html" class="sidebar-link"><span class="icon">🧑‍💼</span> Manage Users</a>
-    </nav>
-
-    <div class="sidebar-footer">
-      <a href="../login.html" class="sidebar-link"><span class="icon">&#8630;</span> Logout</a>
-    </div>
-  </aside>
-
-  <!-- Main -->
-  <div class="app-main">
-    <div class="topbar no-print">
-      <div class="font-display font-semibold text-slate-800">Batches</div>
-      <div class="text-sm text-slate-500">Welcome, Admin</div>
-    </div>
-
-    <main class="app-content">
-
-    <!-- Header -->
-    <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-8">
-
-        <div>
-            <h1 class="font-display text-3xl font-bold text-slate-900">Manage Batches</h1>
-            <p class="mt-2 text-slate-600">Add the batches (year, class and division) that timetables are generated for.</p>
+    <!-- Sidebar -->
+    <aside class="sidebar no-print">
+        <div class="sidebar-brand">
+            <div class="flex items-center gap-2.5">
+                <svg width="26" height="26" viewBox="0 0 34 34" fill="none" xmlns="http://www.w3.org/2000/svg" class="shrink-0">
+                    <rect width="34" height="34" rx="9" fill="#17A398"/>
+                    <rect x="7" y="9" width="20" height="16" rx="3" fill="#F6F6F4"/>
+                    <rect x="7" y="9" width="20" height="5" rx="2.5" fill="#12192B"/>
+                    <circle cx="11.5" cy="7" r="1.6" fill="#12192B"/>
+                    <circle cx="22.5" cy="7" r="1.6" fill="#12192B"/>
+                    <rect x="10.5" y="17" width="4" height="4" rx="1" fill="#17A398"/>
+                    <rect x="16" y="17" width="4" height="4" rx="1" fill="#C7CDDB"/>
+                    <rect x="21.5" y="17" width="4" height="4" rx="1" fill="#C7CDDB"/>
+                </svg>
+                <div class="sidebar-brand-mark">Smart Timetable</div>
+            </div>
+            <div class="sidebar-brand-sub">Admin Console</div>
         </div>
 
-        <button onclick="openForm()"
-                class="bg-primary hover:bg-primary-700 text-white px-5 py-3 rounded-lg font-semibold">
-            + Add Batch
-        </button>
+        <nav class="sidebar-nav">
+            <a href="dashboard.html" class="sidebar-link"><span class="icon">🏠</span> Dashboard</a>
+            <a href="teachers.html" class="sidebar-link"><span class="icon">👨‍🏫</span> Teachers</a>
+            <a href="subjects.html" class="sidebar-link"><span class="icon">📚</span> Subjects</a>
+            <a href="batches.html" class="sidebar-link active"><span class="icon">👥</span> Batches</a>
+            <a href="rooms.html" class="sidebar-link"><span class="icon">🏫</span> Rooms</a>
+            <a href="generate-timetable.html" class="sidebar-link"><span class="icon">⚙️</span> Generate Timetable</a>
+            <a href="timetable.html" class="sidebar-link"><span class="icon">📅</span> View Timetable</a>
+            <a href="users.html" class="sidebar-link"><span class="icon">🧑‍💼</span> Manage Users</a>
+        </nav>
 
-    </div>
-
-
-    <!-- Search -->
-    <div class="bg-white border border-slate-200 rounded-xl shadow-sm p-5 mb-6">
-        <div class="flex flex-col md:flex-row gap-4">
-
-            <input type="text"
-                   id="searchInput"
-                   placeholder="Search batch by name..."
-                   class="flex-1 px-4 py-3 border border-slate-300 rounded-lg outline-none focus:ring-2 focus:ring-accent">
-
-            <button id="searchBtn"
-                    class="bg-slate-800 hover:bg-primary-900 text-white px-6 py-3 rounded-lg font-semibold">
-                Search
-            </button>
-
+        <div class="sidebar-footer">
+            <a href="../login.html" class="sidebar-link"><span class="icon">&#8630;</span> Logout</a>
         </div>
-    </div>
+    </aside>
 
-
-    <!-- Page message -->
-    <p id="pageMsg" class="hidden mb-6 text-sm font-semibold"></p>
-
-
-    <!-- Table -->
-    <div class="bg-white border border-slate-200 rounded-xl shadow-sm overflow-hidden">
-
-        <div class="px-6 py-5 border-b border-slate-200">
-            <h2 class="font-display text-xl font-bold">Batch List</h2>
+    <!-- Main -->
+    <div class="app-main">
+        <div class="topbar no-print">
+            <div class="font-display font-semibold text-slate-800">Batches</div>
+            <div class="text-sm text-slate-500">Welcome, Admin</div>
         </div>
 
-        <div class="overflow-x-auto">
-            <table class="w-full text-sm">
+        <main class="app-content">
 
-                <thead class="bg-slate-100">
-                <tr>
-                    <th class="px-6 py-4 text-left">ID</th>
-                    <th class="px-6 py-4 text-left">Batch Name</th>
-                    <th class="px-6 py-4 text-left">Year</th>
-                    <th class="px-6 py-4 text-left">Actions</th>
-                </tr>
-                </thead>
+            <!-- Header -->
+            <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-8">
 
-                <tbody id="tableBody" class="divide-y divide-slate-200">
-                <tr>
-                    <td colspan="4" class="px-6 py-8 text-center text-slate-500">Loading...</td>
-                </tr>
-                </tbody>
+                <div>
+                    <h1 class="font-display text-3xl font-bold text-slate-900">Manage Batches</h1>
+                    <p class="mt-2 text-slate-600">Add the batches (year, class and division) that timetables are generated for.</p>
+                </div>
 
-            </table>
-        </div>
+                <button onclick="openForm()"
+                        class="bg-primary hover:bg-primary-700 text-white px-5 py-3 rounded-lg font-semibold">
+                    + Add Batch
+                </button>
 
+            </div>
+
+
+            <!-- Search -->
+            <div class="bg-white border border-slate-200 rounded-xl shadow-sm p-5 mb-6">
+                <div class="flex flex-col md:flex-row gap-4">
+
+                    <input type="text"
+                           id="searchInput"
+                           placeholder="Search batch by name..."
+                           class="flex-1 px-4 py-3 border border-slate-300 rounded-lg outline-none focus:ring-2 focus:ring-accent">
+
+                    <button id="searchBtn"
+                            class="bg-slate-800 hover:bg-primary-900 text-white px-6 py-3 rounded-lg font-semibold">
+                        Search
+                    </button>
+
+                </div>
+            </div>
+
+
+            <!-- Page message -->
+            <p id="pageMsg" class="hidden mb-6 text-sm font-semibold"></p>
+
+
+            <!-- Table -->
+            <div class="bg-white border border-slate-200 rounded-xl shadow-sm overflow-hidden">
+
+                <div class="px-6 py-5 border-b border-slate-200">
+                    <h2 class="font-display text-xl font-bold">Batch List</h2>
+                </div>
+
+                <div class="overflow-x-auto">
+                    <table class="w-full text-sm">
+
+                        <thead class="bg-slate-100">
+                        <tr>
+                            <th class="px-6 py-4 text-left">ID</th>
+                            <th class="px-6 py-4 text-left">Batch Name</th>
+                            <th class="px-6 py-4 text-left">Year</th>
+                            <th class="px-6 py-4 text-left">Actions</th>
+                        </tr>
+                        </thead>
+
+                        <tbody id="tableBody" class="divide-y divide-slate-200">
+                        <tr>
+                            <td colspan="4" class="px-6 py-8 text-center text-slate-500">Loading...</td>
+                        </tr>
+                        </tbody>
+
+                    </table>
+                </div>
+
+            </div>
+
+        </main>
     </div>
-
-</main>
-  </div>
 </div>
 
 

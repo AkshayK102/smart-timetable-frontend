@@ -7,6 +7,7 @@
 
   <title>Manage Rooms - Smart Timetable Scheduler</title>
 
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 34 34'%3E%3Crect width='34' height='34' rx='9' fill='%230F6D66'/%3E%3Crect x='7' y='9' width='20' height='16' rx='3' fill='%23F6F6F4'/%3E%3Crect x='7' y='9' width='20' height='5' rx='2.5' fill='%231B2A4A'/%3E%3Ccircle cx='11.5' cy='7' r='1.6' fill='%231B2A4A'/%3E%3Ccircle cx='22.5' cy='7' r='1.6' fill='%231B2A4A'/%3E%3Crect x='10.5' y='17' width='4' height='4' rx='1' fill='%230F6D66'/%3E%3Crect x='16' y='17' width='4' height='4' rx='1' fill='%23C7CDDB'/%3E%3Crect x='21.5' y='17' width='4' height='4' rx='1' fill='%23C7CDDB'/%3E%3C/svg%3E">
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -39,7 +40,19 @@
   <!-- Sidebar -->
   <aside class="sidebar no-print">
     <div class="sidebar-brand">
-      <div class="sidebar-brand-mark">Smart Timetable</div>
+      <div class="flex items-center gap-2.5">
+        <svg width="26" height="26" viewBox="0 0 34 34" fill="none" xmlns="http://www.w3.org/2000/svg" class="shrink-0">
+          <rect width="34" height="34" rx="9" fill="#17A398"/>
+          <rect x="7" y="9" width="20" height="16" rx="3" fill="#F6F6F4"/>
+          <rect x="7" y="9" width="20" height="5" rx="2.5" fill="#12192B"/>
+          <circle cx="11.5" cy="7" r="1.6" fill="#12192B"/>
+          <circle cx="22.5" cy="7" r="1.6" fill="#12192B"/>
+          <rect x="10.5" y="17" width="4" height="4" rx="1" fill="#17A398"/>
+          <rect x="16" y="17" width="4" height="4" rx="1" fill="#C7CDDB"/>
+          <rect x="21.5" y="17" width="4" height="4" rx="1" fill="#C7CDDB"/>
+        </svg>
+        <div class="sidebar-brand-mark">Smart Timetable</div>
+      </div>
       <div class="sidebar-brand-sub">Admin Console</div>
     </div>
 
@@ -68,75 +81,75 @@
 
     <main class="app-content">
 
-  <!-- Header -->
-  <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-8">
+      <!-- Header -->
+      <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-8">
 
-    <div>
-      <h1 class="font-display text-3xl font-bold text-slate-900">Manage Rooms</h1>
-      <p class="mt-2 text-slate-600">Add classrooms and labs used for timetable generation.</p>
-    </div>
+        <div>
+          <h1 class="font-display text-3xl font-bold text-slate-900">Manage Rooms</h1>
+          <p class="mt-2 text-slate-600">Add classrooms and labs used for timetable generation.</p>
+        </div>
 
-    <button onclick="openForm()"
-            class="bg-primary hover:bg-primary-700 text-white px-5 py-3 rounded-lg font-semibold">
-      + Add Room
-    </button>
+        <button onclick="openForm()"
+                class="bg-primary hover:bg-primary-700 text-white px-5 py-3 rounded-lg font-semibold">
+          + Add Room
+        </button>
 
-  </div>
-
-
-  <!-- Search -->
-  <div class="bg-white border border-slate-200 rounded-xl shadow-sm p-5 mb-6">
-    <div class="flex flex-col md:flex-row gap-4">
-
-      <input type="text"
-             id="searchInput"
-             placeholder="Search room by name..."
-             class="flex-1 px-4 py-3 border border-slate-300 rounded-lg outline-none focus:ring-2 focus:ring-accent">
-
-      <button id="searchBtn"
-              class="bg-slate-800 hover:bg-primary-900 text-white px-6 py-3 rounded-lg font-semibold">
-        Search
-      </button>
-
-    </div>
-  </div>
+      </div>
 
 
-  <!-- Page message -->
-  <p id="pageMsg" class="hidden mb-6 text-sm font-semibold"></p>
+      <!-- Search -->
+      <div class="bg-white border border-slate-200 rounded-xl shadow-sm p-5 mb-6">
+        <div class="flex flex-col md:flex-row gap-4">
+
+          <input type="text"
+                 id="searchInput"
+                 placeholder="Search room by name..."
+                 class="flex-1 px-4 py-3 border border-slate-300 rounded-lg outline-none focus:ring-2 focus:ring-accent">
+
+          <button id="searchBtn"
+                  class="bg-slate-800 hover:bg-primary-900 text-white px-6 py-3 rounded-lg font-semibold">
+            Search
+          </button>
+
+        </div>
+      </div>
 
 
-  <!-- Table -->
-  <div class="bg-white border border-slate-200 rounded-xl shadow-sm overflow-hidden">
+      <!-- Page message -->
+      <p id="pageMsg" class="hidden mb-6 text-sm font-semibold"></p>
 
-    <div class="px-6 py-5 border-b border-slate-200">
-      <h2 class="font-display text-xl font-bold">Room List</h2>
-    </div>
 
-    <div class="overflow-x-auto">
-      <table class="w-full text-sm">
+      <!-- Table -->
+      <div class="bg-white border border-slate-200 rounded-xl shadow-sm overflow-hidden">
 
-        <thead class="bg-slate-100">
-        <tr>
-          <th class="px-6 py-4 text-left">ID</th>
-          <th class="px-6 py-4 text-left">Room Name</th>
-          <th class="px-6 py-4 text-left">Capacity</th>
-          <th class="px-6 py-4 text-left">Actions</th>
-        </tr>
-        </thead>
+        <div class="px-6 py-5 border-b border-slate-200">
+          <h2 class="font-display text-xl font-bold">Room List</h2>
+        </div>
 
-        <tbody id="tableBody" class="divide-y divide-slate-200">
-        <tr>
-          <td colspan="4" class="px-6 py-8 text-center text-slate-500">Loading...</td>
-        </tr>
-        </tbody>
+        <div class="overflow-x-auto">
+          <table class="w-full text-sm">
 
-      </table>
-    </div>
+            <thead class="bg-slate-100">
+            <tr>
+              <th class="px-6 py-4 text-left">ID</th>
+              <th class="px-6 py-4 text-left">Room Name</th>
+              <th class="px-6 py-4 text-left">Capacity</th>
+              <th class="px-6 py-4 text-left">Actions</th>
+            </tr>
+            </thead>
 
-  </div>
+            <tbody id="tableBody" class="divide-y divide-slate-200">
+            <tr>
+              <td colspan="4" class="px-6 py-8 text-center text-slate-500">Loading...</td>
+            </tr>
+            </tbody>
 
-</main>
+          </table>
+        </div>
+
+      </div>
+
+    </main>
   </div>
 </div>
 

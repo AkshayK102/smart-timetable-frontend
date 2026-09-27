@@ -6,6 +6,7 @@
 
   <title>Smart Timetable Scheduler</title>
 
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 34 34'%3E%3Crect width='34' height='34' rx='9' fill='%230F6D66'/%3E%3Crect x='7' y='9' width='20' height='16' rx='3' fill='%23F6F6F4'/%3E%3Crect x='7' y='9' width='20' height='5' rx='2.5' fill='%231B2A4A'/%3E%3Ccircle cx='11.5' cy='7' r='1.6' fill='%231B2A4A'/%3E%3Ccircle cx='22.5' cy='7' r='1.6' fill='%231B2A4A'/%3E%3Crect x='10.5' y='17' width='4' height='4' rx='1' fill='%230F6D66'/%3E%3Crect x='16' y='17' width='4' height='4' rx='1' fill='%23C7CDDB'/%3E%3Crect x='21.5' y='17' width='4' height='4' rx='1' fill='%23C7CDDB'/%3E%3C/svg%3E">
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -37,13 +38,23 @@
 <nav class="bg-primary-900 text-white">
   <div class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
 
-    <div class="text-xl font-display font-bold">
-      Smart Timetable Scheduler
+    <div class="flex items-center gap-2.5 text-xl font-display font-bold">
+      <svg width="28" height="28" viewBox="0 0 34 34" fill="none" xmlns="http://www.w3.org/2000/svg" class="shrink-0">
+        <rect width="34" height="34" rx="9" fill="#0F6D66"/>
+        <rect x="7" y="9" width="20" height="16" rx="3" fill="#F6F6F4"/>
+        <rect x="7" y="9" width="20" height="5" rx="2.5" fill="#1B2A4A"/>
+        <circle cx="11.5" cy="7" r="1.6" fill="#1B2A4A"/>
+        <circle cx="22.5" cy="7" r="1.6" fill="#1B2A4A"/>
+        <rect x="10.5" y="17" width="4" height="4" rx="1" fill="#0F6D66"/>
+        <rect x="16" y="17" width="4" height="4" rx="1" fill="#C7CDDB"/>
+        <rect x="21.5" y="17" width="4" height="4" rx="1" fill="#C7CDDB"/>
+      </svg>
+      <span>Smart Timetable Scheduler</span>
     </div>
 
     <div class="flex items-center gap-7 text-sm">
       <a href="index.html" class="hover:text-accent">Home</a>
-      <a href="about.html" class="hover:text-accent">About</a>
+      <a href="#" class="hover:text-accent">About</a>
       <a href="login.html" class="hover:text-accent">Login</a>
       <a href="signup.html" class="hover:text-accent">Sign Up</a>
     </div>
@@ -53,19 +64,29 @@
 
 
 <!-- Hero Section -->
-<section class="min-h-[calc(100vh-140px)] flex items-center">
+<section class="relative overflow-hidden min-h-[calc(100vh-140px)] flex items-center">
 
-  <div class="max-w-7xl mx-auto px-6 w-full">
+  <!-- Ambient background accents -->
+  <div class="pointer-events-none absolute -top-32 -right-32 w-[28rem] h-[28rem] rounded-full opacity-20"
+       style="background: radial-gradient(circle, #17A398 0%, transparent 70%);"></div>
+  <div class="pointer-events-none absolute -bottom-40 -left-24 w-[24rem] h-[24rem] rounded-full opacity-10"
+       style="background: radial-gradient(circle, #1B2A4A 0%, transparent 70%);"></div>
+
+  <div class="relative max-w-7xl mx-auto px-6 w-full">
 
     <div class="grid md:grid-cols-2 gap-12 items-center">
 
       <!-- Left Content -->
       <div>
 
-        <h1 class="font-display text-5xl md:text-6xl font-bold leading-tight text-slate-900">
+        <span class="inline-flex items-center gap-2 text-xs font-semibold tracking-wide uppercase text-accent-700 bg-accent-50 border border-accent-600/20 px-3 py-1.5 rounded-full">
+          Clash-free scheduling, automated
+        </span>
+
+        <h1 class="mt-5 font-display text-5xl md:text-6xl font-bold leading-tight text-slate-900">
           Smart
           <br>
-          Timetable
+          <span class="text-gradient">Timetable</span>
           <br>
           Scheduler
         </h1>
@@ -78,12 +99,12 @@
         <div class="mt-8 flex gap-4">
 
           <a href="login.html"
-             class="bg-primary hover:bg-primary-700 text-white px-8 py-3 rounded-lg font-semibold">
+             class="bg-primary hover:bg-primary-700 text-white px-8 py-3 rounded-lg font-semibold shadow-lg shadow-primary-900/20 transition-transform hover:-translate-y-0.5">
             Login
           </a>
 
           <a href="signup.html"
-             class="border border-blue-600 text-accent-600 hover:bg-blue-50 px-8 py-3 rounded-lg font-semibold">
+             class="border-2 border-accent-600 text-accent-600 hover:bg-accent-50 px-8 py-3 rounded-lg font-semibold transition-transform hover:-translate-y-0.5">
             Sign Up
           </a>
 
@@ -99,8 +120,8 @@
 
           <!-- Clock -->
           <div class="absolute right-4 top-0 w-24 h-24 rounded-full
-                                border-8 border-blue-600 bg-white
-                                flex items-center justify-center shadow-lg">
+                                border-8 border-accent-600 bg-white
+                                flex items-center justify-center shadow-xl">
 
             <div class="text-2xl font-bold text-slate-700">
               12
@@ -110,9 +131,9 @@
 
           <!-- Timetable -->
           <div class="absolute left-10 top-14 w-64 h-40
-                                bg-white rounded-xl shadow-xl
+                                bg-white rounded-xl shadow-2xl
                                 border border-slate-200 p-5
-                                transform -rotate-3">
+                                transform -rotate-3 transition-transform hover:rotate-0 duration-300">
 
             <div class="text-accent-700 font-bold mb-3">
               Timetable
@@ -120,23 +141,23 @@
 
             <div class="grid grid-cols-5 gap-2">
 
-              <div class="h-6 bg-blue-100 rounded"></div>
-              <div class="h-6 bg-blue-200 rounded"></div>
-              <div class="h-6 bg-blue-100 rounded"></div>
-              <div class="h-6 bg-blue-300 rounded"></div>
-              <div class="h-6 bg-blue-100 rounded"></div>
+              <div class="h-6 bg-accent-50 rounded"></div>
+              <div class="h-6 bg-accent-100 rounded"></div>
+              <div class="h-6 bg-accent-50 rounded"></div>
+              <div class="h-6 rounded" style="background: var(--accent-grad);"></div>
+              <div class="h-6 bg-accent-50 rounded"></div>
 
-              <div class="h-6 bg-blue-200 rounded"></div>
-              <div class="h-6 bg-blue-100 rounded"></div>
-              <div class="h-6 bg-blue-300 rounded"></div>
-              <div class="h-6 bg-blue-100 rounded"></div>
-              <div class="h-6 bg-blue-200 rounded"></div>
+              <div class="h-6 bg-accent-100 rounded"></div>
+              <div class="h-6 bg-accent-50 rounded"></div>
+              <div class="h-6 rounded" style="background: var(--accent-grad);"></div>
+              <div class="h-6 bg-accent-50 rounded"></div>
+              <div class="h-6 bg-accent-100 rounded"></div>
 
-              <div class="h-6 bg-blue-100 rounded"></div>
-              <div class="h-6 bg-blue-300 rounded"></div>
-              <div class="h-6 bg-blue-100 rounded"></div>
-              <div class="h-6 bg-blue-200 rounded"></div>
-              <div class="h-6 bg-blue-100 rounded"></div>
+              <div class="h-6 bg-accent-50 rounded"></div>
+              <div class="h-6 rounded" style="background: var(--accent-grad);"></div>
+              <div class="h-6 bg-accent-50 rounded"></div>
+              <div class="h-6 bg-accent-100 rounded"></div>
+              <div class="h-6 bg-accent-50 rounded"></div>
 
             </div>
 
@@ -156,29 +177,33 @@
 <!-- Features -->
 <section class="bg-white border-t">
 
-  <div class="max-w-7xl mx-auto px-6 py-6">
+  <div class="max-w-7xl mx-auto px-6 py-10">
 
     <div class="grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
 
-      <div>
+      <div class="group px-4 py-5 rounded-xl transition-colors hover:bg-accent-50">
+        <div class="mx-auto mb-3 w-11 h-11 rounded-lg flex items-center justify-center text-xl text-white" style="background: var(--accent-grad);">✓</div>
         <div class="font-semibold text-slate-800">
           Easy to Use
         </div>
       </div>
 
-      <div>
+      <div class="group px-4 py-5 rounded-xl transition-colors hover:bg-accent-50">
+        <div class="mx-auto mb-3 w-11 h-11 rounded-lg flex items-center justify-center text-xl text-white" style="background: var(--accent-grad);">⚡</div>
         <div class="font-semibold text-slate-800">
           Clash-Free
         </div>
       </div>
 
-      <div>
+      <div class="group px-4 py-5 rounded-xl transition-colors hover:bg-accent-50">
+        <div class="mx-auto mb-3 w-11 h-11 rounded-lg flex items-center justify-center text-xl text-white" style="background: var(--accent-grad);">⏱</div>
         <div class="font-semibold text-slate-800">
           Time Saving
         </div>
       </div>
 
-      <div>
+      <div class="group px-4 py-5 rounded-xl transition-colors hover:bg-accent-50">
+        <div class="mx-auto mb-3 w-11 h-11 rounded-lg flex items-center justify-center text-xl text-white" style="background: var(--accent-grad);">📋</div>
         <div class="font-semibold text-slate-800">
           Better Management
         </div>
