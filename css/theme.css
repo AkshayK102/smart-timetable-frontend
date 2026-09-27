@@ -19,6 +19,69 @@ html {
 body {
   font-family: "Public Sans", ui-sans-serif, system-ui, sans-serif;
   -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+/* ---------- Responsive top navbar (index/login/signup/about/forgot-password/user pages) ---------- */
+/* Every page's top nav shares this shape: <nav class="bg-primary-900 ..."><div class="... flex ...">brand-el</div><div>links/actions</div></div></nav> */
+
+nav.bg-primary-900 > div {
+  flex-wrap: wrap;
+  row-gap: 0.75rem;
+}
+
+@media (max-width: 640px) {
+  nav.bg-primary-900 > div {
+    padding-top: 0.9rem;
+    padding-bottom: 0.9rem;
+  }
+
+  nav.bg-primary-900 > div > *:first-child {
+    font-size: 1rem;
+  }
+
+  nav.bg-primary-900 > div > *:last-child {
+    width: 100%;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    gap: 0.9rem !important;
+  }
+}
+
+/* Horizontal-scroll tables: hint that there's more to the right */
+#gridBox, .data-table-scroll {
+  -webkit-overflow-scrolling: touch;
+}
+
+/* ---------- Responsive admin shell (sidebar + topbar), all admin/*.html pages ---------- */
+
+@media (max-width: 768px) {
+  .app-shell {
+    flex-direction: column;
+  }
+
+  .sidebar {
+    width: 100%;
+    height: auto;
+    position: relative;
+    top: auto;
+    flex-shrink: 1;
+  }
+
+  .sidebar-nav {
+    overflow-y: visible;
+  }
+
+  .topbar {
+    flex-wrap: wrap;
+    row-gap: 0.4rem;
+    padding: 1rem 1.25rem;
+  }
+
+  .app-content {
+    padding: 1.25rem;
+    max-width: 100%;
+  }
 }
 
 /* Reusable brand gradient text, e.g. <span class="text-gradient">Smart</span> */
