@@ -12,7 +12,7 @@ function getToken() {
 }
 
 function getUser() {
-    try {git add .
+    try {
         return JSON.parse(localStorage.getItem("user"));
     } catch (e) {
         return null;
