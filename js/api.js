@@ -1,5 +1,5 @@
 // ===== Smart Timetable: common API helper =====
-const API_BASE = "http://localhost:8080/api";
+const API_BASE = "https://smart-timetable-backend-production-468e.up.railway.app/api";
 
 // login.html is at root, admin/user pages are one folder in
 const IN_SUBFOLDER =
@@ -12,7 +12,7 @@ function getToken() {
 }
 
 function getUser() {
-    try {
+    try {git add .
         return JSON.parse(localStorage.getItem("user"));
     } catch (e) {
         return null;
