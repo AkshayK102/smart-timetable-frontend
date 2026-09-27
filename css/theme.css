@@ -53,37 +53,6 @@ nav.bg-primary-900 > div {
   -webkit-overflow-scrolling: touch;
 }
 
-/* ---------- Responsive admin shell (sidebar + topbar), all admin/*.html pages ---------- */
-
-@media (max-width: 768px) {
-  .app-shell {
-    flex-direction: column;
-  }
-
-  .sidebar {
-    width: 100%;
-    height: auto;
-    position: relative;
-    top: auto;
-    flex-shrink: 1;
-  }
-
-  .sidebar-nav {
-    overflow-y: visible;
-  }
-
-  .topbar {
-    flex-wrap: wrap;
-    row-gap: 0.4rem;
-    padding: 1rem 1.25rem;
-  }
-
-  .app-content {
-    padding: 1.25rem;
-    max-width: 100%;
-  }
-}
-
 /* Reusable brand gradient text, e.g. <span class="text-gradient">Smart</span> */
 .text-gradient {
   background: var(--accent-grad);
@@ -221,6 +190,39 @@ textarea:focus-visible {
 .app-content {
   padding: 2rem;
   max-width: 1180px;
+}
+
+/* ---------- Responsive admin shell (sidebar + topbar), all admin/*.html pages ----------
+   Placed AFTER the base .app-shell / .sidebar / .topbar / .app-content rules above so it
+   actually wins in the cascade at mobile widths (equal specificity → later rule wins). */
+
+@media (max-width: 768px) {
+  .app-shell {
+    flex-direction: column;
+  }
+
+  .sidebar {
+    width: 100%;
+    height: auto;
+    position: relative;
+    top: auto;
+    flex-shrink: 1;
+  }
+
+  .sidebar-nav {
+    overflow-y: visible;
+  }
+
+  .topbar {
+    flex-wrap: wrap;
+    row-gap: 0.4rem;
+    padding: 1rem 1.25rem;
+  }
+
+  .app-content {
+    padding: 1.25rem;
+    max-width: 100%;
+  }
 }
 
 /* ---------- Shared components ---------- */
