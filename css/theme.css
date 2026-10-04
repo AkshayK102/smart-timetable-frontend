@@ -22,29 +22,60 @@ body {
   overflow-x: hidden;
 }
 
-/* ---------- Responsive top navbar (index/login/signup/about/forgot-password/user pages) ---------- */
-/* Every page's top nav shares this shape: <nav class="bg-primary-900 ..."><div class="... flex ...">brand-el</div><div>links/actions</div></div></nav> */
+/* ---------- Responsive top navbar with hamburger menu ---------- */
+/* Every page's top nav shares this shape:
+   <nav class="bg-primary-900 ...">
+     <div class="... flex ...">
+       <div/a>brand</div/a>
+       <button id="navToggle" class="navbar-toggle">...</button>
+       <div class="navbar-links ...">links/actions</div>
+     </div>
+   </nav> */
 
 nav.bg-primary-900 > div {
   flex-wrap: wrap;
   row-gap: 0.75rem;
 }
 
+.navbar-toggle {
+  display: none;
+  background: transparent;
+  border: none;
+  color: #fff;
+  padding: 0.4rem;
+  cursor: pointer;
+  line-height: 0;
+}
+
 @media (max-width: 640px) {
   nav.bg-primary-900 > div {
+    flex-wrap: wrap;
     padding-top: 0.9rem;
     padding-bottom: 0.9rem;
   }
 
   nav.bg-primary-900 > div > *:first-child {
-    font-size: 1rem;
+    font-size: 1.05rem;
   }
 
-  nav.bg-primary-900 > div > *:last-child {
+  .navbar-toggle {
+    display: block;
+  }
+
+  .navbar-links {
+    flex-basis: 100%;
     width: 100%;
-    flex-wrap: wrap;
-    justify-content: flex-start;
-    gap: 0.9rem !important;
+    max-height: 0;
+    overflow: hidden;
+    flex-direction: column;
+    align-items: flex-start !important;
+    gap: 0.75rem !important;
+    transition: max-height 200ms ease;
+  }
+
+  .navbar-links.open {
+    max-height: 20rem;
+    padding-top: 1rem;
   }
 }
 
