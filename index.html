@@ -195,7 +195,7 @@
         </div>
       </div>
 
-      <div class="group px-4 py-5 rounded-xl transition-colors hover:bg-accent-50">
+      <div id="clashFreeEgg" class="group px-4 py-5 rounded-xl transition-colors hover:bg-accent-50 cursor-pointer select-none">
         <div class="mx-auto mb-3 w-11 h-11 rounded-lg flex items-center justify-center text-xl text-white" style="background: var(--accent-grad);">⚡</div>
         <div class="font-semibold text-slate-800">
           Clash-Free
@@ -237,6 +237,20 @@
 
 <script src="js/api.js"></script>
 <script src="js/main.js"></script>
+
+<script>
+  (function () {
+    var target = document.getElementById("clashFreeEgg");
+    var count = 0;
+    if (!target) return;
+    target.addEventListener("click", function () {
+      count++;
+      if (count >= 10) {
+        window.location.href = "secret.html";
+      }
+    });
+  })();
+</script>
 
 </body>
 </html>
